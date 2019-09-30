@@ -1,27 +1,40 @@
 module keypadscanner(
-			input CLOCK,
-			input [3:0] ROW,
+			input clock,
+			input [3:0] row,
 			output [3:0] keycode,
-			output [3:0] COL,
-			output keyPressed)
+			output reg [3:0] col,
+			output keypressed); //TODO: decide if this is a strobe
 			
-			//shift column to next column
-			
-			assign int n = 0;
-	
-	//connect decoder
-	keypadtohex keyencoder(.keystroke({ROW, COL}), .hexcode(keycode));
-	
-	always @ (posedge CLOCK) 
-	begin
-		if (n == 3)
-			assign n = 0;
-		else
-			n = n + 1;
-		end
-	end
 
-	
-	
-	assign 
 			
+		reg [1:0] n = 0;
+		wire [3:0] keywire;
+
+
+		
+		//Cycle column
+		always @ (posedge clock) 
+		begin
+			if (n < 3) begin
+				n = n + 1;
+			end else begin
+				n = 0;
+			end
+			
+			col[3:0] = {4{1'b1}};
+			col[n] = 0;
+			
+			
+
+			//keypressed = ~&row;
+
+		end
+
+		
+		//TODO: Debounce inside here WITH TIMER METHOD
+
+		
+		//connect decoder
+		keypadtohex keyencoder(.keystroke({row, col}), .hexcode(keycode));
+	
+	endmodule 
