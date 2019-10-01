@@ -3,7 +3,8 @@ module keypadscanner(
 			input [3:0] row,
 			output [3:0] keycode,
 			output reg [3:0] col,
-			output keypressed); //TODO: decide if this is a strobe
+			output keypressed,
+			output [7:0] rawcode); //TODO: decide if this is a strobe
 			
 
 			
@@ -15,12 +16,15 @@ module keypadscanner(
 		//Cycle column
 		always @ (posedge clock) 
 		begin
-			if (n < 3) begin
-				n = n + 1;
-			end else begin
-				n = 0;
+			if (~^row) begin //if any key detected as pressed stop iterating over cols
+				if (n < 3) begin //iterate over cols
+					n = n + 1;
+				end else begin
+					n = 0;
+				end
 			end
 			
+			//Decoder to set nth bit to 0
 			col[3:0] = {4{1'b1}};
 			col[n] = 0;
 			
@@ -35,6 +39,8 @@ module keypadscanner(
 
 		
 		//connect decoder
-		keypadtohex keyencoder(.keystroke({row, col}), .hexcode(keycode));
+		keypadtohex keyencoder(.col(col), .row(row), .hexcode(keycode));
+	
+		assign rawcode = {col, row};
 	
 	endmodule 

@@ -1,7 +1,11 @@
-module keypadtohex( input [7:0] keystroke,
+module keypadtohex(
+							input [3:0] col,
+							input [3:0] row,
 						output reg [3:0] hexcode);
 						
-//Module that takes concatenated {ROW, COLUMN} arguments and returns hex value of key face
+//Module that takes {COL, ROW} arguments and returns hex value of key face for DE2 keypad
+
+wire [7:0] keystroke = {col, row};
 
 always @(keystroke)
 begin

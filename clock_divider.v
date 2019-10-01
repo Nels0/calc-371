@@ -11,6 +11,6 @@ always @(posedge clock) begin
 	
 end
 
-assign slow_clock = clock_counter[19];
+assign slow_clock = clock_counter[22]; //19 for ~10ms 22 for debugging
 
 endmodule	

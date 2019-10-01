@@ -42,8 +42,6 @@ set_global_assignment -name TOP_LEVEL_ENTITY calculator
 set_global_assignment -name ORIGINAL_QUARTUS_VERSION 12.0
 set_global_assignment -name PROJECT_CREATION_TIME_DATE "15:31:19  SEPTEMBER 26, 2019"
 set_global_assignment -name LAST_QUARTUS_VERSION 12.0
-set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
-set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
 set_global_assignment -name EDA_SIMULATION_TOOL "<None>"
 set_global_assignment -name VERILOG_FILE keypadtohex.v
 set_global_assignment -name VERILOG_FILE keypadscanner.v
@@ -467,15 +465,15 @@ set_location_assignment PIN_V24 -to GPIO_1[32]
 set_location_assignment PIN_V23 -to GPIO_1[33]
 set_location_assignment PIN_W25 -to GPIO_1[34]
 set_location_assignment PIN_W23 -to GPIO_1[35]
-set_location_assignment PIN_N18 -to GPIO_0[10]
-set_location_assignment PIN_G23 -to GPIO_0[12]
-set_location_assignment PIN_K22 -to GPIO_0[14]
-set_location_assignment PIN_H23 -to GPIO_0[16]
-set_location_assignment PIN_J23 -to GPIO_0[18]
-set_location_assignment PIN_H25 -to GPIO_0[20]
-set_location_assignment PIN_H19 -to GPIO_0[22]
-set_location_assignment PIN_K19 -to GPIO_0[24]
-set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
 set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
 set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
 set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
+set_location_assignment PIN_N18 -to COL[0]
+set_location_assignment PIN_G23 -to COL[1]
+set_location_assignment PIN_K22 -to COL[2]
+set_location_assignment PIN_H23 -to COL[3]
+set_location_assignment PIN_J23 -to ROW[0]
+set_location_assignment PIN_H25 -to ROW[1]
+set_location_assignment PIN_H19 -to ROW[2]
+set_location_assignment PIN_K19 -to ROW[3]
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

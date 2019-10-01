@@ -1,7 +1,9 @@
-module calculator (input [3:0]ROW,
+module calculator (input [3:0] ROW,
 							input CLOCK_50,
 							output [3:0] COL,
-							output [0:6] HEX0);
+							output [0:6] HEX0,
+							output [7:0] LEDG,
+							output [17:0] LEDR);
 		
 		wire [3:0] keycode;
 		wire keypressed;
@@ -14,9 +16,10 @@ module calculator (input [3:0]ROW,
 										.row(ROW),
 										.col(COL),
 										.keycode(keycode),
-										.keypressed(keypressed));
+										.keypressed(keypressed),
+										.rawcode(LEDR[7:0]));
 										
-		
+		assign LEDG [3:0] = keycode;
 		
 	//todo: latch key to debug
 		
