@@ -7,12 +7,11 @@ module calculator (input [3:0] ROW,
 		
 		wire [3:0] keycode;
 		wire keypressed;
-		wire clock10ms;
+		//wire clock10ms;
 		
-		clock_divider slowclock(.clock(CLOCK_50),
-										.slow_clock(clock10ms));
+
 		
-		keypadscanner KeyScan0(.clock(clock10ms),
+		keypadscanner KeyScan0(.clock(CLOCK_50),
 										.row(ROW),
 										.col(COL),
 										.keycode(keycode),
