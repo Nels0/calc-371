@@ -12,7 +12,7 @@ module keypadscanner(
 		wire clock10ms;
 		reg [1:0] n = 0;
 		wire [3:0] keywire;
-		reg [9:0] debouncetimer = 0;
+		reg [20:0] debouncetimer = 0;
 
 
 		clock_divider slowclock(.clock(clock),
@@ -22,7 +22,7 @@ module keypadscanner(
 		//Cycle column
 		always @ (posedge clock10ms) 
 		begin
-			if (~^row) begin //if any key detected as pressed stop iterating over cols
+			if (&row) begin //if any key detected as pressed stop iterating over cols
 				if (n < 3) begin //iterate over cols
 					n = n + 1;
 				end else begin
@@ -36,17 +36,23 @@ module keypadscanner(
 
 		end
 
+		parameter debouncecount = 3;
+		
 		always @ (posedge clock) begin
-			if (~^row) begin
-				debouncetimer = debouncetimer + 1;
+			if (~&row) begin
+				if (debouncetimer <= debouncecount) begin
+					debouncetimer = debouncetimer + 1;
+				end
+				
 			end else begin
 				debouncetimer = 0;
 			end
 			
-			if (debouncetimer == 1000) begin
-				keypressed = 1'b1;
-			end
+			//rising edge
+			keypressed = (debouncetimer == debouncecount)? 1:0;
 		end
+		
+		
 		
 
 		
