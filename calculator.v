@@ -8,26 +8,26 @@ module calculator (input [3:0] ROW,
 							output [17:0] LEDR);
 		
 		wire [3:0] keycode;
-		wire keypressed;
-		//wire clock10ms;
+		wire keystrobe;
+		wire clockmain;
 		
-
+		clock_divider #(.DIVISION(10)) mainclock (.clock(CLOCK_50), .slow_clock(clockmain));
 		
-		keypadscanner KeyScan0(.clock(CLOCK_50),
+		keypadscanner KeyScan0(.clock(clockmain),
 										.row(ROW),
 										.col(COL),
 										.keycode(keycode),
-										.keypressed(keypressed),
+										.keypressed(keystrobe),
 										.rawcode(LEDR[7:0]));
 										
 		assign LEDG [3:0] = keycode;
-		assign LEDR [8] = keypressed;
+		assign LEDR [8] = keystrobe;
 		
 	//todo: latch key to debug
 		
-		bcdreg bcdreg0 (.clock(CLOCK_50),
+		bcdreg bcdreg0 (.clock(clockmain),
 							.digit(keycode),
-							.keystrobe(keypressed),
+							.keystrobe(keystrobe),
 							.bcd1(hex0char),
 							.bcd10(hex1char),
 							.bcd100(hex2char));
