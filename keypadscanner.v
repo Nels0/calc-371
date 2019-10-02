@@ -3,7 +3,7 @@ module keypadscanner(
 			input [3:0] row,
 			output [3:0] keycode,
 			output reg [3:0] col,
-			output reg keypressed, //This is a strobe
+			output reg keypressed,
 			output [7:0] rawcode); 
 			
 			
@@ -12,11 +12,14 @@ module keypadscanner(
 		wire keyclock;
 		reg [1:0] n = 0;
 		wire [3:0] keywire;
-		reg [20:0] debouncetimer = 0;
 
 
-		clock_divider #(.DIVISION(9)) keypadclock (.clock(clock),
+
+		clock_divider #(.DIVISION(19)) keypadclock (.clock(clock),
 										.slow_clock(keyclock));
+		
+		
+		
 		
 		
 		//Cycle column
@@ -30,30 +33,14 @@ module keypadscanner(
 				end
 			end
 			
+			keypressed = (~&row)? 1:0;
+			
 			//Decoder to set nth bit to 0
 			col[3:0] = {4{1'b1}};
 			col[n] = 0;
 
 		end
 
-		parameter debouncecount = 5;
-		
-		always @ (posedge clock) begin
-			if (~&row) begin
-				if (debouncetimer <= debouncecount) begin
-					debouncetimer = debouncetimer + 1;
-				end
-				
-			end else begin
-				debouncetimer = 0;
-			end
-			
-			//rising edge
-			keypressed = (debouncetimer == debouncecount)? 1:0;
-		end
-		
-		
-		
 
 		
 		//connect decoder
