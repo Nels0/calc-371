@@ -1,5 +1,6 @@
 module calculator (input [3:0] ROW,
 							input CLOCK_50,
+							input [3:0] KEY,
 							output [3:0] COL,
 							output [0:6] HEX0,
 							output [0:6] HEX1,
