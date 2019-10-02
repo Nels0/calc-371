@@ -33,26 +33,40 @@ module calculator (input [3:0] ROW,
 		//~~~~~~~~
 		
 		//PUSHBUTTON INPUT
-		wire bksp_in;
-		negedgetrigger bksppressedge (.clock(clockmain), .signal(KEY[0]), .strobe(bksp_in));
+		wire bksp_strobe;
+		negedgetrigger bksppressedge (.clock(clockmain), .signal(KEY[0]), .strobe(bksp_strobe));
 		
 		
 		//DISPLAY MEM
-		bcdreg bcdreg0 (.clock(clockmain),
+		bcdreg bcdreg_A (.clock(clockmain),
 							.digit(keycode),
 							.keystrobe(keystrobe),
-							.bcd1(hex0char),
-							.bcd10(hex1char),
-							.bcd100(hex2char));
+							.bcd1(hex0char_A),
+							.bcd10(hex1char_A),
+							.bcd100(hex2char_A));
 		//~~~~~~~~~~~~
 		
 
 		//DISPLAY
-		wire [3:0] hex0char, hex1char, hex2char;
+		wire [3:0] hex0char_A, hex1char_A, hex2char_A;
+		wire [3:0] hex0char_B, hex1char_B, hex2char_B;
+		wire [3:0] hex0char_out, hex1char_out, hex2char_out;
+		wire display_select = 0;
 		
-		char_7seg H0 (.S(hex0char), .Display(HEX0));
-		char_7seg H1 (.S(hex1char), .Display(HEX1));
-		char_7seg H2 (.S(hex2char), .Display(HEX2));
+		displaymux displayMUX (display_select(display_select);
+								.hex0char_A(hex0char_A), 
+								.hex1char_A(hex1char_A), 
+								.hex2char_A(hex2char_A),
+								.hex0char_B(hex0char_B), 
+								.hex1char_B(hex1char_B), 
+								.hex2char_B(hex2char_B),
+								.hex0char_out(hex0char_out),
+								.hex1char_out(hex1char_out), 
+								.hex2char_out(hex2char_out));
+		
+		char_7seg H0 (.S(hex0char_out), .Display(HEX0));
+		char_7seg H1 (.S(hex1char_out), .Display(HEX1));
+		char_7seg H2 (.S(hex2char_out), .Display(HEX2));
 		//~~~~~~~~~~~~
 
 endmodule 
