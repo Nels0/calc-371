@@ -29,8 +29,12 @@ module calculator (input [3:0] ROW,
 				.signal(keypressed),
 				.db_signal(db_keypressed)); //debounced keypress signal
 		
-		edgetrigger keypressedge (.clock(clockmain), .signal(db_keypressed), .strobe(keystrobe));
+		posedgetrigger keypressedge (.clock(clockmain), .signal(db_keypressed), .strobe(keystrobe));
 		//~~~~~~~~
+		
+		//PUSHBUTTON INPUT
+		wire bksp_in;
+		negedgetrigger bksppressedge (.clock(clockmain), .signal(KEY[0]), .strobe(bksp_in));
 		
 		
 		//DISPLAY MEM
