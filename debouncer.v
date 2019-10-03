@@ -21,7 +21,7 @@ module debouncer #(parameter DBDIVISION = 10, parameter DBPERIOD = 10)(
 			debouncetimer = 0;
 		end
 		
-		//rising edge
+		
 		db_signal = (debouncetimer > debouncecount)? 1:0;
 	end
 		
