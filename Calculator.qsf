@@ -43,11 +43,6 @@ set_global_assignment -name ORIGINAL_QUARTUS_VERSION 12.0
 set_global_assignment -name PROJECT_CREATION_TIME_DATE "15:31:19  SEPTEMBER 26, 2019"
 set_global_assignment -name LAST_QUARTUS_VERSION 12.0
 set_global_assignment -name EDA_SIMULATION_TOOL "<None>"
-set_global_assignment -name VERILOG_FILE keypadtohex.v
-set_global_assignment -name VERILOG_FILE keypadscanner.v
-set_global_assignment -name VERILOG_FILE char_7seg.v
-set_global_assignment -name VERILOG_FILE calculator.v
-set_global_assignment -name VERILOG_FILE clock_divider.v
 set_location_assignment PIN_N25 -to SW[0]
 set_location_assignment PIN_N26 -to SW[1]
 set_location_assignment PIN_P25 -to SW[2]
@@ -476,7 +471,21 @@ set_location_assignment PIN_J23 -to ROW[0]
 set_location_assignment PIN_H25 -to ROW[1]
 set_location_assignment PIN_H19 -to ROW[2]
 set_location_assignment PIN_K19 -to ROW[3]
+set_global_assignment -name VERILOG_FILE posedgetrigger.v
+set_global_assignment -name VERILOG_FILE negedgetrigger.v
+set_global_assignment -name VERILOG_FILE displaymux.v
+set_global_assignment -name VERILOG_FILE control.v
+set_global_assignment -name VERILOG_FILE alu.v
+set_global_assignment -name VERILOG_FILE keypadtohex.v
+set_global_assignment -name VERILOG_FILE keypadscanner.v
+set_global_assignment -name VERILOG_FILE char_7seg.v
+set_global_assignment -name VERILOG_FILE calculator.v
+set_global_assignment -name VERILOG_FILE clock_divider.v
 set_global_assignment -name VERILOG_FILE bcdreg.v
 set_global_assignment -name VERILOG_FILE edgetrigger.v
 set_global_assignment -name VERILOG_FILE debouncer.v
+set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
+set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
+set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
+set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

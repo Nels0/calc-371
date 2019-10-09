@@ -1,8 +1,8 @@
-module bcdreg (input keystrobe,
+module bcdreg (input clock,
 			input [3:0] digit,
+			input keystrobe,
 			input bksp,
-			input clock,
-			output reg [3:0] bcd1, bcd10, bcd100, bcdsign);
+			output reg [3:0] bcd1, bcd10, bcd100);
 			
 			
 			
