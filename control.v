@@ -5,7 +5,8 @@ module control (input dig_in,
 				output reg bksp_A,
 				output reg bksp_B,
 				output reg load_A,
-				output reg load_B);
+				output reg load_B,
+				output reg display_select);
 				
 	parameter op_A = 0, op_B = 1, A_temp = 2, B_temp = 3;
 	
@@ -40,10 +41,12 @@ module control (input dig_in,
 			op_A: begin
 				if(dig_in) load_A <= 1;
 				if(bksp_in) bksp_A <= 1;
+				display_select = 0;
 			end
 			op_B: begin
 				if(dig_in) load_B <= 1;
 				if(bksp_in) bksp_B <= 1;
+				display_select = 1;
 			end
 		endcase
 	end

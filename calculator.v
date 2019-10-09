@@ -1,12 +1,15 @@
 module calculator (input [3:0] ROW,
 							input CLOCK_50,
 							input [3:0] KEY,
+							input [17:0] SW,
 							output [3:0] COL,
 							output [0:6] HEX0,
 							output [0:6] HEX1,
 							output [0:6] HEX2,
 							output [7:0] LEDG,
 							output [17:0] LEDR);
+							
+		assign LEDR[0] = SW[0];
 		
 		//CLOCK
 		wire clockmain;		
@@ -19,6 +22,8 @@ module calculator (input [3:0] ROW,
 		wire keypressed, db_keypressed, keystrobe;
 		wire load_A, load_B;
 		wire bksp_A, bksp_B;
+		wire switchregister;
+		wire display_select;
 		keypadscanner KeyScan0(.clock(clockmain),
 										.row(ROW),
 										.col(COL),
@@ -38,6 +43,8 @@ module calculator (input [3:0] ROW,
 		wire bksp_strobe;
 		negedgetrigger bksppressedge (.clock(clockmain), .signal(KEY[0]), .strobe(bksp_strobe));
 		
+		
+		
 		//CONTROL UNIT
 		control FSM (.dig_in(keystrobe),
 				.op_in(0),
@@ -46,7 +53,8 @@ module calculator (input [3:0] ROW,
 				.bksp_A(bksp_A),
 				.bksp_B(bksp_B),
 				.load_A(load_A),
-				.load_B(load_B));
+				.load_B(load_B),
+				.display_select(display_select));
 		
 		//DISPLAY MEM
 		bcdreg bcdreg_A (.clock(clockmain),
@@ -71,15 +79,14 @@ module calculator (input [3:0] ROW,
 		wire [3:0] hex0char_A, hex1char_A, hex2char_A;
 		wire [3:0] hex0char_B, hex1char_B, hex2char_B;
 		wire [3:0] hex0char_out, hex1char_out, hex2char_out;
-		wire display_select = 0;
 		
-		displaymux displayMUX (.display_select(display_select),
+		displaymux displayMUX (.display_select(SW[0]),
 								.hex0char_A(hex0char_A), 
 								.hex1char_A(hex1char_A), 
 								.hex2char_A(hex2char_A),
-								.hex0char_B(hex0char_B), 
-								.hex1char_B(hex1char_B), 
-								.hex2char_B(hex2char_B),
+								.hex0char_B(0), 
+								.hex1char_B(0), 
+								.hex2char_B(0),
 								.hex0char_out(hex0char_out),
 								.hex1char_out(hex1char_out), 
 								.hex2char_out(hex2char_out));
