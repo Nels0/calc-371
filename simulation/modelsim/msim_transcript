@@ -16,3 +16,551 @@
 # 	vdel -lib rtl_work -all
 # }"
 #  
+vsim -voptargs=+acc work.alu
+# vsim -voptargs=+acc work.alu 
+# Loading work.alu
+ALUtest.do
+# couldn't execute ".\ALUtest.do": no such file or directory
+vsim work.alu
+# vsim work.alu 
+# Loading work.alu
+
+add wave  \
+sim:/alu/regA \
+sim:/alu/regB \
+sim:/alu/opcode \
+sim:/alu/clock \
+sim:/alu/computestrobe \
+sim:/alu/result \
+sim:/alu/ovf \
+sim:/alu/tempSum \
+sim:/alu/shiftedA \
+sim:/alu/i
+force -freeze sim:/alu/clock 1 0, 0 {50 ps} -r 100
+
+for { set i 0 } { $i<=7 } { incr i } { # Create a counter "i"  which we will count from 0 to 7    
+	# Convert to 8 binary digits, store result in "i_bin" variable    
+	binary scan [binary format c $i] B8 i_bin    
+	force -freeze sim:/alu/regA $i_bin 0    
+	force -freeze sim:/alu/regB $i_bin 0    
+	run    
+	if {[examine -radix unsigned sim:/alu/result] != $i + $i} { 
+		echo "FAIL TEST $i"       
+		abort
+	}
+}
+# FAIL TEST 0 
+# FAIL TEST 1 
+# FAIL TEST 2 
+# FAIL TEST 3 
+# FAIL TEST 4 
+# FAIL TEST 5 
+# FAIL TEST 6 
+# FAIL TEST 7 
+force -freeze sim:/alu/computestrobe 1 0 -cancel 100
+vsim work.alu
+# vsim work.alu 
+# Loading work.alu
+
+add wave  \
+sim:/alu/regA \
+sim:/alu/regB \
+sim:/alu/opcode \
+sim:/alu/clock \
+sim:/alu/computestrobe \
+sim:/alu/result \
+sim:/alu/ovf \
+sim:/alu/tempSum \
+sim:/alu/shiftedA \
+sim:/alu/i
+force -freeze sim:/alu/clock 1 0, 0 {50 ps} -r 100
+
+for { set i 0 } { $i<=7 } { incr i } { # Create a counter "i"  which we will count from 0 to 7    
+	# Convert to 8 binary digits, store result in "i_bin" variable    
+	binary scan [binary format c $i] B8 i_bin  
+	# Set compute strobe high for 1 cycle
+	force -freeze sim:/alu/computestrobe 1 0 -cancel 100 
+	force -freeze sim:/alu/regA $i_bin 0    
+	force -freeze sim:/alu/regB $i_bin 0    
+	run
+	run
+	if {[examine -radix unsigned sim:/alu/result] != $i + $i} { 
+		echo "FAIL TEST $i"       
+		abort
+	}
+}
+# FAIL TEST 1 
+# FAIL TEST 2 
+# FAIL TEST 3 
+# FAIL TEST 4 
+# FAIL TEST 5 
+# FAIL TEST 6 
+# FAIL TEST 7 
+force -freeze sim:/alu/opcode 00 0
+vsim work.alu
+# vsim work.alu 
+# Loading work.alu
+
+add wave  \
+sim:/alu/regA \
+sim:/alu/regB \
+sim:/alu/opcode \
+sim:/alu/clock \
+sim:/alu/computestrobe \
+sim:/alu/result \
+sim:/alu/ovf \
+sim:/alu/tempSum \
+sim:/alu/shiftedA \
+sim:/alu/i
+force -freeze sim:/alu/clock 1 0, 0 {50 ps} -r 100
+
+# Set to add mode
+force -freeze sim:/alu/opcode 00 0
+
+for { set i 0 } { $i<=7 } { incr i } { # Create a counter "i"  which we will count from 0 to 7    
+	# Convert to 8 binary digits, store result in "i_bin" variable    
+	binary scan [binary format c $i] B8 i_bin  
+	# Set compute strobe high for 1 cycle
+	force -freeze sim:/alu/computestrobe 1 0 -cancel 100 
+	force -freeze sim:/alu/regA $i_bin 0    
+	force -freeze sim:/alu/regB $i_bin 0    
+	run
+	run
+	if {[examine -radix unsigned sim:/alu/result] != $i + $i} { 
+		echo "FAIL TEST $i"       
+		abort
+	}
+}
+vsim work.alu
+# vsim work.alu 
+# Loading work.alu
+
+add wave  \
+sim:/alu/regA \
+sim:/alu/regB \
+sim:/alu/opcode \
+sim:/alu/clock \
+sim:/alu/computestrobe \
+sim:/alu/result \
+sim:/alu/ovf \
+sim:/alu/tempSum \
+sim:/alu/shiftedA \
+sim:/alu/i
+force -freeze sim:/alu/clock 1 0, 0 {50 ps} -r 100
+
+# Set to add mode
+force -freeze sim:/alu/opcode 00 0
+
+for { set i 0 } { $i<=7 } { incr i } { # Create a counter "i"  which we will count from 0 to 7    
+	# Convert to 8 binary digits, store result in "i_bin" variable    
+	binary scan [binary format c $i] B8 i_bin  
+	# Set compute strobe high for 1 cycle
+	force -freeze sim:/alu/computestrobe 1 0 -cancel 100 
+	force -freeze sim:/alu/regA $i_bin 0    
+	force -freeze sim:/alu/regB $i_bin 0    
+	run
+	run
+	if {[examine -radix unsigned sim:/alu/result] != $i + $i} { 
+		echo "FAIL TEST $i"       
+		abort
+	}
+}
+
+
+echo "PASS ADD TESTS"
+# PASS ADD TESTS 
+vsim work.alu
+# vsim work.alu 
+# Loading work.alu
+
+add wave  \
+sim:/alu/regA \
+sim:/alu/regB \
+sim:/alu/opcode \
+sim:/alu/clock \
+sim:/alu/computestrobe \
+sim:/alu/result \
+sim:/alu/ovf \
+sim:/alu/tempSum \
+sim:/alu/shiftedA \
+sim:/alu/i
+force -freeze sim:/alu/clock 1 0, 0 {50 ps} -r 100
+
+# Set to add mode
+force -freeze sim:/alu/opcode 00 0
+
+for { set i -4 } { $i<=7 } { incr i } { # Create a counter "i"  which we will count from 0 to 7    
+	# Convert to 8 binary digits, store result in "i_bin" variable    
+	binary scan [binary format c $i] B8 i_bin  
+	# Set compute strobe high for 1 cycle
+	force -freeze sim:/alu/computestrobe 1 0 -cancel 100 
+	force -freeze sim:/alu/regA $i_bin 0    
+	force -freeze sim:/alu/regB $i_bin 0    
+	run
+	run
+	if {[examine -radix unsigned sim:/alu/result] != $i + $i} { 
+		echo "FAIL ADD TEST $i"       
+		abort
+	}
+}
+# FAIL ADD TEST -4 
+# FAIL ADD TEST -3 
+# FAIL ADD TEST -2 
+# FAIL ADD TEST -1 
+
+
+echo "PASS ADD TESTS"
+# PASS ADD TESTS 
+
+# Set to subtract mode
+force -freeze sim:/alu/opcode 01 0
+
+for { set i -4 } { $i<=7 } { incr i } { # Create a counter "i"  which we will count from 0 to 7    
+	# Convert to 8 binary digits, store result in "i_bin" variable    
+	binary scan [binary format c $i] B8 i_bin  
+	# Set compute strobe high for 1 cycle
+	force -freeze sim:/alu/computestrobe 1 0 -cancel 100 
+	force -freeze sim:/alu/regA $i_bin 0    
+	force -freeze sim:/alu/regB $i_bin 0    
+	run
+	run
+	if {[examine -radix unsigned sim:/alu/result] != $i - $i} { 
+		echo "FAIL SUBTR TEST $i"       
+		abort
+	}
+}
+
+
+echo "PASS SUBTR TESTS"
+# PASS SUBTR TESTS 
+vsim work.alu
+# vsim work.alu 
+# Loading work.alu
+
+add wave  \
+sim:/alu/regA \
+sim:/alu/regB \
+sim:/alu/opcode \
+sim:/alu/clock \
+sim:/alu/computestrobe \
+sim:/alu/result \
+sim:/alu/ovf \
+sim:/alu/tempSum \
+sim:/alu/shiftedA \
+sim:/alu/i
+force -freeze sim:/alu/clock 1 0, 0 {50 ps} -r 100
+
+# Set to add mode
+force -freeze sim:/alu/opcode 00 0
+
+for { set i -4 } { $i<=7 } { incr i } { # Create a counter "i"  which we will count from 0 to 7    
+	# Convert to 8 binary digits, store result in "i_bin" variable    
+	binary scan [binary format c $i] B8 i_bin  
+	# Set compute strobe high for 1 cycle
+	force -freeze sim:/alu/computestrobe 1 0 -cancel 100 
+	force -freeze sim:/alu/regA $i_bin 0    
+	force -freeze sim:/alu/regB $i_bin 0    
+	run
+	run
+	if {[examine -radix unsigned sim:/alu/result] != $i + $i} { 
+		echo "FAIL ADD TEST $i"       
+		abort
+	}
+}
+# FAIL ADD TEST -4 
+# FAIL ADD TEST -3 
+# FAIL ADD TEST -2 
+# FAIL ADD TEST -1 
+
+
+echo "PASS ADD TESTS"
+# PASS ADD TESTS 
+
+# Set to subtract mode
+force -freeze sim:/alu/opcode 01 0
+
+for { set i -4 } { $i<=7 } { incr i } { # Create a counter "i"  which we will count from 0 to 7    
+	# Convert to 8 binary digits, store result in "i_bin" variable    
+	binary scan [binary format c $i] B8 i_bin  
+	# Set compute strobe high for 1 cycle
+	force -freeze sim:/alu/computestrobe 1 0 -cancel 100 
+	force -freeze sim:/alu/regA $i_bin 0    
+	force -freeze sim:/alu/regB $i_bin 0    
+	run
+	run
+	if {[examine -radix unsigned sim:/alu/result] != $i - $i} { 
+		echo "FAIL SUBTR TEST $i"       
+		abort
+	}
+}
+
+
+echo "PASS SUBTR TESTS"
+# PASS SUBTR TESTS 
+# Load canceled
+vsim work.alu
+# vsim work.alu 
+# Loading work.alu
+vsim work.alu
+# vsim work.alu 
+# Loading work.alu
+
+add wave  \
+sim:/alu/regA \
+sim:/alu/regB \
+sim:/alu/opcode \
+sim:/alu/clock \
+sim:/alu/computestrobe \
+sim:/alu/result \
+sim:/alu/ovf \
+sim:/alu/tempSum \
+sim:/alu/shiftedA \
+sim:/alu/i
+force -freeze sim:/alu/clock 1 0, 0 {50 ps} -r 100
+
+# Set to add mode
+force -freeze sim:/alu/opcode 00 0
+
+for { set i -4 } { $i<=7 } { incr i } { # Create a counter "i"  which we will count from 0 to 7    
+	# Convert to 8 binary digits, store result in "i_bin" variable    
+	binary scan [binary format c $i] B8 i_bin  
+	# Set compute strobe high for 1 cycle
+	force -freeze sim:/alu/computestrobe 1 0 -cancel 100 
+	force -freeze sim:/alu/regA $i_bin 0    
+	force -freeze sim:/alu/regB $i_bin 0    
+	run
+	run
+	if {[examine -radix unsigned sim:/alu/result] != $i + $i} { 
+		echo "FAIL ADD TEST $i"       
+		abort
+	}
+}
+# FAIL ADD TEST -4 
+# FAIL ADD TEST -3 
+# FAIL ADD TEST -2 
+# FAIL ADD TEST -1 
+
+
+echo "PASS ADD TESTS"
+# PASS ADD TESTS 
+
+# Set to subtract mode
+force -freeze sim:/alu/opcode 01 0
+
+for { set i -4 } { $i<=7 } { incr i } { # Create a counter "i"  which we will count from 0 to 7    
+	# Convert to 8 binary digits, store result in "i_bin" variable    
+	binary scan [binary format c $i] B8 i_bin  
+	# Set compute strobe high for 1 cycle
+	force -freeze sim:/alu/computestrobe 1 0 -cancel 100 
+	force -freeze sim:/alu/regA $i_bin 0    
+	force -freeze sim:/alu/regB $i_bin 0    
+	run
+	run
+	if {[examine -radix unsigned sim:/alu/result] != $i - $i} { 
+		echo "FAIL SUBTR TEST $i"       
+		abort
+	}
+}
+
+
+echo "PASS SUBTR TESTS"
+# PASS SUBTR TESTS 
+vsim work.alu
+# vsim work.alu 
+# Loading work.alu
+
+add wave  \
+sim:/alu/regA \
+sim:/alu/regB \
+sim:/alu/opcode \
+sim:/alu/clock \
+sim:/alu/computestrobe \
+sim:/alu/result \
+sim:/alu/ovf \
+sim:/alu/tempSum \
+sim:/alu/shiftedA \
+sim:/alu/i
+force -freeze sim:/alu/clock 1 0, 0 {50 ps} -r 100
+
+# Set to add mode
+force -freeze sim:/alu/opcode 00 0
+
+for { set i -4 } { $i<=7 } { incr i } { # Create a counter "i"  which we will count from 0 to 7    
+	# Convert to 11 binary digits, store result in "i_bin" variable    
+	binary scan [binary format c $i] B11 i_bin  
+	# Set compute strobe high for 1 cycle
+	force -freeze sim:/alu/computestrobe 1 0 -cancel 100 
+	force -freeze sim:/alu/regA $i_bin 0    
+	force -freeze sim:/alu/regB $i_bin 0    
+	run
+	run
+	if {[examine -radix unsigned sim:/alu/result] != $i + $i} { 
+		echo "FAIL ADD TEST $i"       
+		abort
+	}
+}
+# FAIL ADD TEST -4 
+# FAIL ADD TEST -3 
+# FAIL ADD TEST -2 
+# FAIL ADD TEST -1 
+# FAIL ADD TEST 0 
+# FAIL ADD TEST 1 
+# FAIL ADD TEST 2 
+# FAIL ADD TEST 3 
+# FAIL ADD TEST 4 
+# FAIL ADD TEST 5 
+# FAIL ADD TEST 6 
+
+
+echo "PASS ADD TESTS"
+# PASS ADD TESTS 
+
+# Set to subtract mode
+force -freeze sim:/alu/opcode 01 0
+
+for { set i -4 } { $i<=7 } { incr i } { # Create a counter "i"  which we will count from 0 to 7    
+	# Convert to 11 binary digits, store result in "i_bin" variable    
+	binary scan [binary format c $i] B11 i_bin  
+	# Set compute strobe high for 1 cycle
+	force -freeze sim:/alu/computestrobe 1 0 -cancel 100 
+	force -freeze sim:/alu/regA $i_bin 0    
+	force -freeze sim:/alu/regB $i_bin 0    
+	run
+	run
+	if {[examine -radix unsigned sim:/alu/result] != $i - $i} { 
+		echo "FAIL SUBTR TEST $i"       
+		abort
+	}
+}
+
+
+echo "PASS SUBTR TESTS"
+# PASS SUBTR TESTS 
+ls
+# ALUtest.do
+# Calculator_run_msim_rtl_verilog.do
+# Calculator_run_msim_rtl_verilog.do.bak
+# Calculator_run_msim_rtl_verilog.do.bak1
+# alu_test.do
+# msim_transcript
+# rtl_work/
+# vsim.wlf
+# work/
+ALUtest.do
+# couldn't execute ".\ALUtest.do": no such file or directory
+do ALUtest.do
+# vsim work.alu 
+# Loading work.alu
+# FAIL ADD TEST -4 
+do ALUtest.do
+# vsim work.alu 
+# Loading work.alu
+# FAIL ADD TEST -4 
+do ALUtest.do
+# vsim work.alu 
+# Loading work.alu
+# FAIL ADD TEST 0 
+do ALUtest.do
+# vsim work.alu 
+# Loading work.alu
+# FAIL ADD TEST 0 
+do ALUtest.do
+# vsim work.alu 
+# Loading work.alu
+# FAIL ADD TEST 1 
+do ALUtest.do
+# vsim work.alu 
+# Loading work.alu
+# PASS ADD TESTS 
+# PASS SUBTR TESTS 
+do ALUtest.do
+# vsim work.alu 
+# Loading work.alu
+# ** Error: Invalid binary digit: $.
+# ** Error: (vsim-4011) Invalid force value: {$i_bin [10:0]} 0.
+# Error in macro ./ALUtest.do line 32
+# Invalid binary digit: $.
+# ** Error: (vsim-4011) Invalid force value: {$i_bin [10:0]} 0.
+# 
+#     while executing
+# "force -freeze sim:/alu/regA {$i_bin [10:0]} 0    "
+#     ("for" body line 6)
+#     invoked from within
+# "for { set i 1 } { $i<=7 } { incr i } { # Create a counter "i"  which we will count from 0 to 7    
+# 	# Convert to 11 binary digits, store result in "i_..."
+do ALUtest.do
+# vsim work.alu 
+# Loading work.alu
+# ** Error: Invalid binary digit: $.
+# ** Error: (vsim-4011) Invalid force value: {$i_bin [10:0]}.
+# Error in macro ./ALUtest.do line 32
+# Invalid binary digit: $.
+# ** Error: (vsim-4011) Invalid force value: {$i_bin [10:0]}.
+# 
+#     while executing
+# "force -freeze sim:/alu/regA {$i_bin [10:0]}    "
+#     ("for" body line 6)
+#     invoked from within
+# "for { set i 1 } { $i<=7 } { incr i } { # Create a counter "i"  which we will count from 0 to 7    
+# 	# Convert to 11 binary digits, store result in "i_..."
+do ALUtest.do
+# vsim work.alu 
+# Loading work.alu
+# ** Error: parsing expression "regA $i_bin [10:0]"
+# parser is unable to recognize the expression
+# Error in macro ./ALUtest.do line 32
+# parsing expression "regA $i_bin [10:0]"
+# parser is unable to recognize the expression
+# 
+#     while executing
+# "force -freeze {sim:/alu/regA $i_bin [10:0]} 0    "
+#     ("for" body line 6)
+#     invoked from within
+# "for { set i 1 } { $i<=7 } { incr i } { # Create a counter "i"  which we will count from 0 to 7    
+# 	# Convert to 11 binary digits, store result in "i_..."
+do ALUtest.do
+# vsim work.alu 
+# Loading work.alu
+# ** Error: parsing expression "regA $i_bin [10:0]"
+# parser is unable to recognize the expression
+# Error in macro ./ALUtest.do line 33
+# parsing expression "regA $i_bin [10:0]"
+# parser is unable to recognize the expression
+# 
+#     while executing
+# "force -freeze {sim:/alu/regA $i_bin [10:0]} 0    "
+#     ("for" body line 6)
+#     invoked from within
+# "for { set i 1 } { $i<=7 } { incr i } { # Create a counter "i"  which we will count from 0 to 7    
+# 	# Convert to 11 binary digits, store result in "i_..."
+do ALUtest.do
+# vsim work.alu 
+# Loading work.alu
+# ** Error: parsing expression "regA $i_bin [10:0]"
+# parser is unable to recognize the expression
+# Error in macro ./ALUtest.do line 33
+# parsing expression "regA $i_bin [10:0]"
+# parser is unable to recognize the expression
+# 
+#     while executing
+# "force -freeze {sim:/alu/regA $i_bin [10:0]} 0    "
+#     ("for" body line 6)
+#     invoked from within
+# "for { set i 1 } { $i<=7 } { incr i } { # addcheck 
+# 	# Convert to 11 binary digits, store result in "i_bin" variable    
+# 	binary scan [binary format c ..."
+do ALUtest.do
+# vsim work.alu 
+# Loading work.alu
+# ** Error: (vish-4001) Incorrect number of arguments.
+# Usage: force [-freeze | -drive | -deposit] [-cancel <time>] [-repeat <time>] <object_name> {<value> [[@]<time>[<unit>]]}...
+# Error in macro ./ALUtest.do line 33
+# ** Error: (vish-4001) Incorrect number of arguments.
+# Usage: force [-freeze | -drive | -deposit] [-cancel <time>] [-repeat <time>] <object_name> {<value> [[@]<time>[<unit>]]}...
+#     while executing
+# "force -freeze {sim:/alu/regA $i_bin [10:0]}   "
+#     ("for" body line 6)
+#     invoked from within
+# "for { set i 1 } { $i<=7 } { incr i } { # addcheck 
+# 	# Convert to 11 binary digits, store result in "i_bin" variable    
+# 	binary scan [binary format c ..."
