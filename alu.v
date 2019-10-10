@@ -3,6 +3,8 @@
 `define multiply 2'b10 
 `define divide 2'b11 
 
+//asd
+
 module alu#(parameter BITS = 21)
 				 (input signed [10:0] regA, regB, //11-bit reg for signed int +999 to -999
 				input [1:0] opcode,
