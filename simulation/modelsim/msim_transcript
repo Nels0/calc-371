@@ -3,67 +3,16 @@
 # if {[file exists rtl_work]} {
 # 	vdel -lib rtl_work -all
 # }
-# vlib rtl_work
-# vmap work rtl_work
-# Copying C:\Altera\12.0\modelsim_ase\win32aloem/../modelsim.ini to modelsim.ini
-# Modifying modelsim.ini
-# ** Warning: Copied C:\Altera\12.0\modelsim_ase\win32aloem/../modelsim.ini to modelsim.ini.
-#          Updated modelsim.ini.
-# 
-# vlog -vlog01compat -work work +incdir+D:/rhug194/calc-371 {D:/rhug194/calc-371/posedgetrigger.v}
-# Model Technology ModelSim ALTERA vlog 10.0d Compiler 2012.01 Jan 18 2012
-# -- Compiling module posedgetrigger
-# 
-# Top level modules:
-# 	posedgetrigger
-# vlog -vlog01compat -work work +incdir+D:/rhug194/calc-371 {D:/rhug194/calc-371/negedgetrigger.v}
-# Model Technology ModelSim ALTERA vlog 10.0d Compiler 2012.01 Jan 18 2012
-# -- Compiling module negedgetrigger
-# 
-# Top level modules:
-# 	negedgetrigger
-# vlog -vlog01compat -work work +incdir+D:/rhug194/calc-371 {D:/rhug194/calc-371/displaymux.v}
-# Model Technology ModelSim ALTERA vlog 10.0d Compiler 2012.01 Jan 18 2012
-# -- Compiling module displaymux
-# 
-# Top level modules:
-# 	displaymux
-# vlog -vlog01compat -work work +incdir+D:/rhug194/calc-371 {D:/rhug194/calc-371/control.v}
-# Model Technology ModelSim ALTERA vlog 10.0d Compiler 2012.01 Jan 18 2012
-# -- Compiling module control
-# 
-# Top level modules:
-# 	control
-# vlog -vlog01compat -work work +incdir+D:/rhug194/calc-371 {D:/rhug194/calc-371/keypadtohex.v}
-# Model Technology ModelSim ALTERA vlog 10.0d Compiler 2012.01 Jan 18 2012
-# -- Compiling module keypadtohex
-# 
-# Top level modules:
-# 	keypadtohex
-# vlog -vlog01compat -work work +incdir+D:/rhug194/calc-371 {D:/rhug194/calc-371/keypadscanner.v}
-# Model Technology ModelSim ALTERA vlog 10.0d Compiler 2012.01 Jan 18 2012
-# -- Compiling module keypadscanner
-# 
-# Top level modules:
-# 	keypadscanner
-# vlog -vlog01compat -work work +incdir+D:/rhug194/calc-371 {D:/rhug194/calc-371/char_7seg.v}
-# Model Technology ModelSim ALTERA vlog 10.0d Compiler 2012.01 Jan 18 2012
-# -- Compiling module char_7seg
-# 
-# Top level modules:
-# 	char_7seg
-# vlog -vlog01compat -work work +incdir+D:/rhug194/calc-371 {D:/rhug194/calc-371/calculator.v}
-# Model Technology ModelSim ALTERA vlog 10.0d Compiler 2012.01 Jan 18 2012
-# -- Compiling module calculator
-# ** Error: D:/rhug194/calc-371/calculator.v(77): 'hex0char_A' already declared in this scope (calculator).
-# ** Error: D:/rhug194/calc-371/calculator.v(77): 'hex1char_A' already declared in this scope (calculator).
-# ** Error: D:/rhug194/calc-371/calculator.v(77): 'hex2char_A' already declared in this scope (calculator).
-# ** Error: D:/rhug194/calc-371/calculator.v(78): 'hex0char_B' already declared in this scope (calculator).
-# ** Error: D:/rhug194/calc-371/calculator.v(78): 'hex1char_B' already declared in this scope (calculator).
-# ** Error: D:/rhug194/calc-371/calculator.v(78): 'hex2char_B' already declared in this scope (calculator).
-# ** Error: C:/Altera/12.0/modelsim_ase/win32aloem/vlog failed.
-# Error in macro ./Calculator_run_msim_rtl_verilog.do line 15
-# C:/Altera/12.0/modelsim_ase/win32aloem/vlog failed.
+# ** Error: (vdel-19) Failed to access library 'rtl_work' at "rtl_work".
+# No such file or directory. (errno = ENOENT)
+# ** Warning: (vdel-57) Library 'rtl_work' is missing or is not a valid ModelSim library.
+# ** Error: C:/Altera/12.0/modelsim_ase/win32aloem/vdel failed.
+# Error in macro ./Calculator_run_msim_rtl_verilog.do line 4
+# C:/Altera/12.0/modelsim_ase/win32aloem/vdel failed.
 #     while executing
-# "vlog -vlog01compat -work work +incdir+D:/rhug194/calc-371 {D:/rhug194/calc-371/calculator.v}"
+# "vdel -lib rtl_work -all"
+#     invoked from within
+# "if {[file exists rtl_work]} {
+# 	vdel -lib rtl_work -all
+# }"
 #  

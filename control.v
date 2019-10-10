@@ -1,6 +1,7 @@
 module control (input dig_in,
 				input op_in,
 				input bksp_in,
+				input keycode,
 				input clock,
 				output reg bksp_A,
 				output reg bksp_B,
@@ -36,16 +37,23 @@ module control (input dig_in,
 		bksp_B <= 0;
 		load_A <= 0;
 		load_B <= 0;
+			
 		
 		case(state)
 			op_A: begin
 				if(dig_in) load_A <= 1;
-				if(bksp_in) bksp_A <= 1;
+				if(bksp_in) begin 
+					bksp_A <= 1;
+					load_A <= 1;
+				end
 				display_select = 0;
 			end
 			op_B: begin
 				if(dig_in) load_B <= 1;
-				if(bksp_in) bksp_B <= 1;
+				if(bksp_in) begin 
+					bksp_B <= 1;
+					load_B <= 1;
+				end
 				display_select = 1;
 			end
 		endcase

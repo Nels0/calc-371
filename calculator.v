@@ -9,7 +9,6 @@ module calculator (input [3:0] ROW,
 							output [7:0] LEDG,
 							output [17:0] LEDR);
 							
-		assign LEDR[0] = SW[0];
 		
 		//CLOCK
 		wire clockmain;		
@@ -35,19 +34,27 @@ module calculator (input [3:0] ROW,
 				.clock(clockmain),
 				.signal(keypressed),
 				.db_signal(db_keypressed)); //debounced keypress signal
-		
 		posedgetrigger keypressedge (.clock(clockmain), .signal(db_keypressed), .strobe(keystrobe));
+		
+		//KEY PAD STROBE
+		wire op_strobe;
+		wire dig_strobe;
+		keypadsignal key(.keystrobe(keystrobe),
+								.keycode(keycode),
+								.op_strobe(op_strobe),
+								.dig_strobe(dig_strobe));
 		//~~~~~~~~
+		
+		
 		
 		//PUSHBUTTON INPUT
 		wire bksp_strobe;
 		negedgetrigger bksppressedge (.clock(clockmain), .signal(KEY[0]), .strobe(bksp_strobe));
 		
 		
-		
 		//CONTROL UNIT
-		control FSM (.dig_in(keystrobe),
-				.op_in(0),
+		control FSM (.dig_in(dig_strobe),
+				.op_in(op_strobe),
 				.bksp_in(bksp_strobe),
 				.clock(clockmain),
 				.bksp_A(bksp_A),
@@ -80,13 +87,13 @@ module calculator (input [3:0] ROW,
 		wire [3:0] hex0char_B, hex1char_B, hex2char_B;
 		wire [3:0] hex0char_out, hex1char_out, hex2char_out;
 		
-		displaymux displayMUX (.display_select(SW[0]),
+		displaymux displayMUX (.display_select(display_select),
 								.hex0char_A(hex0char_A), 
 								.hex1char_A(hex1char_A), 
 								.hex2char_A(hex2char_A),
-								.hex0char_B(0), 
-								.hex1char_B(0), 
-								.hex2char_B(0),
+								.hex0char_B(hex0char_B), 
+								.hex1char_B(hex1char_B), 
+								.hex2char_B(hex2char_B),
 								.hex0char_out(hex0char_out),
 								.hex1char_out(hex1char_out), 
 								.hex2char_out(hex2char_out));
