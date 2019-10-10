@@ -47,7 +47,6 @@ set_global_assignment -name VERILOG_FILE posedgetrigger.v
 set_global_assignment -name VERILOG_FILE negedgetrigger.v
 set_global_assignment -name VERILOG_FILE displaymux.v
 set_global_assignment -name VERILOG_FILE control.v
-set_global_assignment -name VERILOG_FILE alu.v
 set_global_assignment -name VERILOG_FILE keypadtohex.v
 set_global_assignment -name VERILOG_FILE keypadscanner.v
 set_global_assignment -name VERILOG_FILE char_7seg.v
@@ -58,9 +57,6 @@ set_global_assignment -name VERILOG_FILE edgetrigger.v
 set_global_assignment -name VERILOG_FILE debouncer.v
 set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
 set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
-set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
-set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
-set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
 set_location_assignment PIN_N25 -to SW[0]
 set_location_assignment PIN_N26 -to SW[1]
 set_location_assignment PIN_P25 -to SW[2]
