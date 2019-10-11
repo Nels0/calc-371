@@ -36,46 +36,74 @@ module calculator (input [3:0] ROW,
 				.db_signal(db_keypressed)); //debounced keypress signal
 		posedgetrigger keypressedge (.clock(clockmain), .signal(db_keypressed), .strobe(keystrobe));
 		
-		//KEY PAD STROBE
-		wire op_strobe;
-		wire dig_strobe;
-		keypadsignal key(.keystrobe(keystrobe),
-								.keycode(keycode),
-								.op_strobe(op_strobe),
-								.dig_strobe(dig_strobe));
-		//~~~~~~~~
+		//KEY PAD INPUT HANDLER
 		
+		wire dig_strobe, reset_strobe, ex_strobe, op_strobe;
+		wire [3:0] dig_code;
+		wire [1:0] op_code;
 		
+		keypadhandler keypad (
+			.keystrobe(keystrobe),
+			.keycode(keycode),
+			.dig_strobe(dig_strobe),
+			.reset_strobe(reset_strobe),
+			.ex_strobe(ex_strobe),
+			.op_strobe(op_strobe),
+			.dig_code(dig_code),
+			.op_code(op_code)
+		);
 		
-		//PUSHBUTTON INPUT
-		wire bksp_strobe;
-		negedgetrigger bksppressedge (.clock(clockmain), .signal(KEY[0]), .strobe(bksp_strobe));
+		//PUSH BUTTON INPUT HANDLER
+		
+		wire bksp_strobe, MS_strobe, MR_strobe, MC_strobe;
+		
+		PBhandler PB (
+			.KEY(KEY),
+			.clock(clockmain),
+			.bksp_strobe(bksp_strobe),
+			.MS_strobe(MS_strobe),
+			.MR_strobe(MR_strobe),
+			.MC_strobe(MC_strobe)
+		);
 		
 		
 		//CONTROL UNIT
-		control FSM (.dig_in(dig_strobe),
-				.op_in(op_strobe),
-				.bksp_in(bksp_strobe),
-				.clock(clockmain),
-				.bksp_A(bksp_A),
-				.bksp_B(bksp_B),
-				.load_A(load_A),
-				.load_B(load_B),
-				.display_select(display_select));
+		control FSM (
+			.dig_in(dig_strobe),
+			.reset_in(reset_strobe),
+			.ex_in(ex_strobe),
+			.op_in(op_strobe),
+			.bksp_in(bksp_strobe),
+			.MS_in(MS_strobe),
+			.MR_in(MR_strobe),
+			.MC_in(MC_strobe),
+			.clock(clockmain),
+			.bksp_A(bksp_A),
+			.bksp_B(bksp_B),
+			.load_A(load_A),
+			.load_B(load_B),
+			.load_op(load_op),
+			.display_select(display_select)
+		);
 		
-		//DISPLAY MEM
+		//OPERAND REGISTERS
+		wire clear_A = 0;
+		wire clear_B = 0;
+		
 		bcdreg bcdreg_A (.clock(clockmain),
-							.digit(keycode),
+							.digit(dig_code),
 							.keystrobe(load_A),
-							.bksp(bksp_A),
+							.load(bksp_A),
+							.clear(clear_A),
 							.bcd1(hex0char_A),
 							.bcd10(hex1char_A),
 							.bcd100(hex2char_A));
 							
 		bcdreg bcdreg_B (.clock(clockmain),
-							.digit(keycode),
-							.keystrobe(load_B),
+							.digit(dig_code),
+							.load(load_B),
 							.bksp(bksp_B),
+							.clear(clear_B),
 							.bcd1(hex0char_B),
 							.bcd10(hex1char_B),
 							.bcd100(hex2char_B));

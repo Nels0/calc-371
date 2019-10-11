@@ -1,16 +1,14 @@
 module posedgetrigger (
 		input clock,
 		input signal,
-		output reg strobe);
+		output strobe);
 		
 	reg signal_last;
 	
 	always @(posedge clock) begin
 			signal_last <= signal;
-			
-			strobe = (signal && ~signal_last)? 1:0;
-	
 	end
 	
+	assign strobe = (signal && ~signal_last)? 1:0;
 	
 endmodule 

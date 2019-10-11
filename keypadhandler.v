@@ -1,4 +1,4 @@
-module keypadsignal (
+module keypadhandler (
 	input keystrobe,
 	input [3:0] keycode,
 	

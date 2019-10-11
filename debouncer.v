@@ -1,7 +1,7 @@
 module debouncer #(parameter DBDIVISION = 10, parameter DBPERIOD = 10)(
 		input clock, 
 		input signal,
-		output reg db_signal);
+		output wire db_signal);
 
 
 	clock_divider #(.DIVISION(DBDIVISION)) debouncerclockmodule (.clock(clock),
@@ -13,16 +13,13 @@ module debouncer #(parameter DBDIVISION = 10, parameter DBPERIOD = 10)(
 
 	always @ (posedge debounceclock) begin
 		if (signal) begin
-			if (debouncetimer <= debouncecount) begin
-				debouncetimer = debouncetimer + 1;
-			end
-			
-		end else begin
+			debouncetimer = debouncetimer + 1;
+		end
+		if (~signal) begin
 			debouncetimer = 0;
 		end
-		
-		//rising edge
-		db_signal = (debouncetimer > debouncecount)? 1:0;
 	end
+	
+	assign db_signal = (debouncetimer > debouncecount)? 1:0;
 		
 endmodule 
