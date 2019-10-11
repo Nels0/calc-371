@@ -12,9 +12,10 @@ module control (input dig_in,
 				output reg load_A,
 				output reg load_B,
 				output reg load_op,
-				output reg display_select);
+				output reg execute,
+				output reg [1:0] display_select);
 				
-	parameter op_A = 0, op_B = 1, oprnd = 2;
+	parameter op_A = 0, op_B = 1, oprnd = 2, result = 3;
 	
 	reg[1:0]state = op_A;
 	
@@ -24,11 +25,14 @@ module control (input dig_in,
 				if(op_in) state = oprnd;
 			end
 			op_B: begin
-				if(ex_in) state = op_A;
+				if(ex_in) state = result;
 				if(reset_in) state = op_A;
 			end
 			oprnd: begin
 				if(dig_in) state = op_B;
+				if(reset_in) state = op_A;
+			end
+			oprnd: begin
 				if(reset_in) state = op_A;
 			end
 		endcase
@@ -40,6 +44,7 @@ module control (input dig_in,
 		load_A <= 0;
 		load_B <= 0;
 		load_op <= 0;
+		execute <= 0;
 			
 		case(state)
 			op_A: begin
@@ -51,10 +56,14 @@ module control (input dig_in,
 			op_B: begin
 				if(dig_in) load_B <= 1;
 				if(bksp_in) bksp_B <= 1;
+				if(ex_in) execute <= 1;
 				display_select = 1;
 			end
 			oprnd: begin
 				display_select = 0;
+			end
+			result: begin
+				display_select = 2;
 			end
 		endcase
 	end

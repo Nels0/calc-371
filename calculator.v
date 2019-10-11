@@ -22,7 +22,6 @@ module calculator (input [3:0] ROW,
 		wire load_A, load_B;
 		wire bksp_A, bksp_B;
 		wire switchregister;
-		wire display_select;
 		keypadscanner KeyScan0(.clock(clockmain),
 										.row(ROW),
 										.col(COL),
@@ -83,34 +82,49 @@ module calculator (input [3:0] ROW,
 			.load_A(load_A),
 			.load_B(load_B),
 			.load_op(load_op),
+			.execute(execute). //this is signal for ALU to execute the operation
 			.display_select(display_select)
 		);
 		
 		//OPERAND REGISTERS
-		wire clear_A = 0;
-		wire clear_B = 0;
 		
-		bcdreg bcdreg_A (.clock(clockmain),
-							.digit(dig_code),
+		bcdreg operand_A (.digit(dig_code),
 							.keystrobe(load_A),
 							.load(bksp_A),
-							.clear(clear_A),
+							.clear(reset_strobe),
 							.bcd1(hex0char_A),
 							.bcd10(hex1char_A),
 							.bcd100(hex2char_A));
 							
-		bcdreg bcdreg_B (.clock(clockmain),
-							.digit(dig_code),
+		bcdreg operand_B (.digit(dig_code),
 							.load(load_B),
 							.bksp(bksp_B),
-							.clear(clear_B),
+							.clear(reset_strobe),
 							.bcd1(hex0char_B),
 							.bcd10(hex1char_B),
 							.bcd100(hex2char_B));
 		//~~~~~~~~~~~~
 		
+		//MEMORY REGISTER
+		bcdreg operand_A (.digit(dig_code),
+							.keystrobe(load_A),
+							.load(bksp_A),
+							.clear(reset_strobe),
+							.bcd1(hex0char_A),
+							.bcd10(hex1char_A),
+							.bcd100(hex2char_A));
+		
+		//OPERATOR REGISTER
+		
+		wire [1:0] operator;
+		
+		opreg op (.load(load_op),
+			.op_code(op_code),
+			.operator(operator);
+		);
 
 		//DISPLAY
+		
 		wire [3:0] hex0char_A, hex1char_A, hex2char_A;
 		wire [3:0] hex0char_B, hex1char_B, hex2char_B;
 		wire [3:0] hex0char_out, hex1char_out, hex2char_out;

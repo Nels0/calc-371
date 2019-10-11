@@ -1,12 +1,11 @@
-module bcdreg (input clock,
-			input [3:0] digit,
+module bcdreg (input [3:0] digit,
 			input load,
 			input bksp,
 			input clear,
 			output reg [3:0] bcd1, bcd10, bcd100
 );
 			
-	always @ (posedge clock) begin
+	always @ (load,bksp,clear) begin
 			if (clear) begin
 				//blank character
 				bcd1 <= 4'b1010; 
