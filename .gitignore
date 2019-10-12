@@ -91,3 +91,16 @@ cov*/
 transcript*
 sc_dpiheader.h
 vsim.dbg
+
+simulation/modelsim/work/alu/verilog.prw
+
+simulation/modelsim/msim_transcript
+
+*.prw
+
+simulation/modelsim/modelsim.ini
+
+simulation/modelsim/Calculator_run_msim_rtl_verilog.do
+
+*.bak*
+
