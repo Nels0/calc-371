@@ -10,10 +10,11 @@ module alu#(parameter BITS = 21)
 				input [1:0] opcode,
 				input clock, computestrobe,
 				output reg signed[20:0] result, //21-bit reg for signed int +999*999 to -999*999
-				output reg ovf,
-				output reg remainderbitmask // Where values are 1, the mux should display that as remainder?
+				output reg remain, //Whether there's a remainder
+				output reg [20:0] remainder // Where values are 1, the mux should display that as remainder?
 				);
 
+  reg [10:0] N, D;
 	reg signed [22:0] P;
 	integer i;
 	
@@ -58,9 +59,52 @@ module alu#(parameter BITS = 21)
 				
 			end
 				
-			default : begin
-				result = 0;
+			`divide : begin
+			  //NOTE: The way we're asked to implement it is ass
+			  //Why would the quotient be different whenyou flip the sign of one???
+			  //Remainder should be the same sign as the numerator
+			  //But I guess we'll fo the dum offset???
+			  
+				//Implementation of long division algorithm
+				/*
+				Numerator 	N : regA
+				Divisor 		D : regB
+				Quotient 	Q : result
+				Remainder 	R : remainder
+				*/
+			
+
+				result = 21'd0;
+				remainder = 21'd0;
+				remain = 1'b0;
+				
+				//Convert N and D to magnitude only
+				N = (regA[10] == 1)? -regA: regA;
+				D = (regB[10] == 1)? -regB: regB;
+				
+				
+				if(D != 11'd0) begin //div/0 check all outputs zero when div/0
+					for (i = 10; i >= 0; i = i-1) begin
+						remainder = remainder << 1;
+						remainder[0] = N[i];
+						
+						if (remainder >= D) begin
+							remainder = remainder - D;
+							result[i] = 1'b1;
+						end
+					end
+					
+					//Convert results back to two's complement
+					result = ((regA[10] == 1)^(regB[10] == 1))? -result:result;
+					remainder = ((regA[10] == 1)^(regB[10] == 1))? -remainder : remainder;
+					remain = |remainder;
+				end
+				
+				
+				
 			end
+				
+			default : begin	end
 			
 			
 			endcase
