@@ -94,9 +94,16 @@ module alu#(parameter BITS = 21)
 						end
 					end
 					
+					
+					if(regA[10] == 1 && remainder != 21'd0) begin //handle the STUPID case
+						remainder = D - remainder;
+						result = result + 1'b1;
+					end
+					
 					//Convert results back to two's complement
 					result = ((regA[10] == 1)^(regB[10] == 1))? -result:result;
-					remainder = ((regA[10] == 1)^(regB[10] == 1))? -remainder : remainder;
+					//stupid case: remainder is positive
+					//remainder = ((regA[10] == 1)^(regB[10] == 1))? -remainder : remainder;
 					remain = |remainder;
 				end
 				

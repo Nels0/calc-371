@@ -104,3 +104,11 @@ simulation/modelsim/Calculator_run_msim_rtl_verilog.do
 
 *.bak*
 
+
+*.sdo
+
+*.vo
+
+*.xrf
+
+*.sft
