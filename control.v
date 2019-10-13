@@ -32,7 +32,7 @@ module control (input dig_in,
 				if(dig_in) state = op_B;
 				if(reset_in) state = op_A;
 			end
-			oprnd: begin
+			result: begin
 				if(reset_in) state = op_A;
 			end
 		endcase
@@ -51,19 +51,19 @@ module control (input dig_in,
 				if(dig_in) load_A <= 1;
 				if(bksp_in) bksp_A <= 1;
 				if (op_in) load_op <= 1;
-				display_select = 0;
+				display_select = 2'b00;
 			end
 			op_B: begin
 				if(dig_in) load_B <= 1;
 				if(bksp_in) bksp_B <= 1;
 				if(ex_in) execute <= 1;
-				display_select = 1;
+				display_select = 2'b01;
 			end
 			oprnd: begin
-				display_select = 0;
+				display_select = 2'b00;
 			end
 			result: begin
-				display_select = 2;
+				display_select = 2'b10;
 			end
 		endcase
 	end

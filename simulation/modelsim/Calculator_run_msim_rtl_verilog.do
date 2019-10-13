@@ -16,4 +16,7 @@ vlog -vlog01compat -work work +incdir+D:/rhug194/calc-371 {D:/rhug194/calc-371/c
 vlog -vlog01compat -work work +incdir+D:/rhug194/calc-371 {D:/rhug194/calc-371/clock_divider.v}
 vlog -vlog01compat -work work +incdir+D:/rhug194/calc-371 {D:/rhug194/calc-371/bcdreg.v}
 vlog -vlog01compat -work work +incdir+D:/rhug194/calc-371 {D:/rhug194/calc-371/debouncer.v}
+vlog -vlog01compat -work work +incdir+D:/rhug194/calc-371 {D:/rhug194/calc-371/inputhandler.v}
+vlog -vlog01compat -work work +incdir+D:/rhug194/calc-371 {D:/rhug194/calc-371/pbhandler.v}
+vlog -vlog01compat -work work +incdir+D:/rhug194/calc-371 {D:/rhug194/calc-371/opreg.v}
 

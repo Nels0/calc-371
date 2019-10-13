@@ -1,4 +1,4 @@
-module keypadsignal (
+module inputhandler (
 	input keystrobe,
 	input [3:0] keycode,
 	
@@ -7,8 +7,8 @@ module keypadsignal (
 	output ex_strobe,
 	output op_strobe,
 	
-	output dig_code,
-	output op_code);
+	output [3:0] dig_code,
+	output [1:0] op_code);
 	
 assign dig_strobe = ((keycode < 4'b1010) && keystrobe)? 1:0;
 assign reset_strobe = ((keycode == 4'b1010) && keystrobe)? 1:0;

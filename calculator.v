@@ -41,7 +41,7 @@ module calculator (input [3:0] ROW,
 		wire [3:0] dig_code;
 		wire [1:0] op_code;
 		
-		keypadhandler keypad (
+		inputhandler keypad (
 			.keystrobe(keystrobe),
 			.keycode(keycode),
 			.dig_strobe(dig_strobe),
@@ -67,6 +67,9 @@ module calculator (input [3:0] ROW,
 		
 		
 		//CONTROL UNIT
+		
+		wire [1:0] display_select;
+		
 		control FSM (
 			.dig_in(dig_strobe),
 			.reset_in(reset_strobe),
@@ -82,21 +85,23 @@ module calculator (input [3:0] ROW,
 			.load_A(load_A),
 			.load_B(load_B),
 			.load_op(load_op),
-			.execute(execute). //this is signal for ALU to execute the operation
+			.execute(execute), //this is signal for ALU to execute the operation
 			.display_select(display_select)
 		);
 		
 		//OPERAND REGISTERS
 		
-		bcdreg operand_A (.digit(dig_code),
-							.keystrobe(load_A),
-							.load(bksp_A),
+		bcdreg operand_A (.clock(clockmain),
+							.digit(dig_code),
+							.load(load_A),
+							.bksp(bksp_A),
 							.clear(reset_strobe),
 							.bcd1(hex0char_A),
 							.bcd10(hex1char_A),
 							.bcd100(hex2char_A));
 							
-		bcdreg operand_B (.digit(dig_code),
+		bcdreg operand_B (.clock(clockmain),
+							.digit(dig_code),
 							.load(load_B),
 							.bksp(bksp_B),
 							.clear(reset_strobe),
@@ -105,22 +110,13 @@ module calculator (input [3:0] ROW,
 							.bcd100(hex2char_B));
 		//~~~~~~~~~~~~
 		
-		//MEMORY REGISTER
-		bcdreg operand_A (.digit(dig_code),
-							.keystrobe(load_A),
-							.load(bksp_A),
-							.clear(reset_strobe),
-							.bcd1(hex0char_A),
-							.bcd10(hex1char_A),
-							.bcd100(hex2char_A));
-		
 		//OPERATOR REGISTER
 		
 		wire [1:0] operator;
 		
 		opreg op (.load(load_op),
 			.op_code(op_code),
-			.operator(operator);
+			.operator(operator)
 		);
 
 		//DISPLAY
