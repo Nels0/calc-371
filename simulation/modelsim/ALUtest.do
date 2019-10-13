@@ -8,10 +8,7 @@ sim:/alu/clock \
 sim:/alu/computestrobe \
 sim:/alu/result \
 sim:/alu/ovf \
-sim:/alu/tempSum \
-sim:/alu/shiftedA \
 sim:/alu/i \
-sim:/alu/A \
 sim:/alu/P \
 
 
