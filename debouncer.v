@@ -6,7 +6,7 @@ module debouncer #(parameter DBDIVISION = 10, parameter DBPERIOD = 10)(
 
 	clock_divider #(.DIVISION(DBDIVISION)) debouncerclockmodule (.clock(clock),
 										.slow_clock(debounceclock));
-
+	wire debounceclock;
 										
 	reg [20:0] debouncetimer = 0;
 	parameter debouncecount = (1/50000*2^DBDIVISION*DBPERIOD);

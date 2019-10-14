@@ -37,9 +37,12 @@ module calculator (input [3:0] ROW,
 		
 		//KEY PAD INPUT HANDLER
 		
-		wire dig_strobe, reset_strobe, ex_strobe, op_strobe;
+		wire dig_strobe, reset_strobe, ex_strobe, op_strobe, sub_strobe;
 		wire [3:0] dig_code;
 		wire [1:0] op_code;
+		
+		//////////////////////////////////////////////////////////////////////////////////////////////////DEBUGGING
+		//////////////////////////////////////////////////////////////////////////////////////////////////DEBUGGING
 		
 		inputhandler keypad (
 			.keystrobe(keystrobe),
@@ -48,6 +51,7 @@ module calculator (input [3:0] ROW,
 			.reset_strobe(reset_strobe),
 			.ex_strobe(ex_strobe),
 			.op_strobe(op_strobe),
+			.sub_strobe(sub_strobe),
 			.dig_code(dig_code),
 			.op_code(op_code)
 		);
@@ -69,6 +73,7 @@ module calculator (input [3:0] ROW,
 		//CONTROL UNIT
 		
 		wire [1:0] display_select;
+		wire load_op, execute;
 		
 		control FSM (
 			.dig_in(dig_strobe),
@@ -79,6 +84,7 @@ module calculator (input [3:0] ROW,
 			.MS_in(MS_strobe),
 			.MR_in(MR_strobe),
 			.MC_in(MC_strobe),
+			.sub_in(sub_strobe),
 			.clock(clockmain),
 			.bksp_A(bksp_A),
 			.bksp_B(bksp_B),
