@@ -6,6 +6,7 @@ module calculator (input [3:0] ROW,
 							output [0:6] HEX0,
 							output [0:6] HEX1,
 							output [0:6] HEX2,
+							output [0:6] HEX3,
 							output [7:0] LEDG,
 							output [17:0] LEDR);
 							
@@ -86,6 +87,7 @@ module calculator (input [3:0] ROW,
 			.MC_in(MC_strobe),
 			.sub_in(sub_strobe),
 			.clock(clockmain),
+			.LED(LEDG[2:0]),
 			.bksp_A(bksp_A),
 			.bksp_B(bksp_B),
 			.load_A(load_A),
@@ -104,7 +106,9 @@ module calculator (input [3:0] ROW,
 							.clear(reset_strobe),
 							.bcd1(hex0char_A),
 							.bcd10(hex1char_A),
-							.bcd100(hex2char_A));
+							.bcd100(hex2char_A),
+							.bcdneg(bcdneg_A)
+							);
 							
 		bcdreg operand_B (.clock(clockmain),
 							.digit(dig_code),
@@ -113,7 +117,10 @@ module calculator (input [3:0] ROW,
 							.clear(reset_strobe),
 							.bcd1(hex0char_B),
 							.bcd10(hex1char_B),
-							.bcd100(hex2char_B));
+							.bcd100(hex2char_B),
+							.bcdneg(bcdneg_B)
+							);
+							
 		//~~~~~~~~~~~~
 		
 		//OPERATOR REGISTER
@@ -127,24 +134,29 @@ module calculator (input [3:0] ROW,
 
 		//DISPLAY
 		
-		wire [3:0] hex0char_A, hex1char_A, hex2char_A;
-		wire [3:0] hex0char_B, hex1char_B, hex2char_B;
-		wire [3:0] hex0char_out, hex1char_out, hex2char_out;
+		wire [3:0] hex0char_A, hex1char_A, hex2char_A, bcdneg_A;
+		wire [3:0] hex0char_B, hex1char_B, hex2char_B, bcdneg_B;
+		wire [3:0] hex0char_out, hex1char_out, hex2char_out, hexnegchar_out;
 		
 		displaymux displayMUX (.display_select(display_select),
 								.hex0char_A(hex0char_A), 
 								.hex1char_A(hex1char_A), 
 								.hex2char_A(hex2char_A),
+								.bcdneg_A(bcdneg_A),
 								.hex0char_B(hex0char_B), 
 								.hex1char_B(hex1char_B), 
 								.hex2char_B(hex2char_B),
+								.bcdneg_B(bcdneg_B),
 								.hex0char_out(hex0char_out),
 								.hex1char_out(hex1char_out), 
-								.hex2char_out(hex2char_out));
+								.hex2char_out(hex2char_out),
+								.hexnegchar_out(hexnegchar_out)
+								);
 		
 		char_7seg H0 (.S(hex0char_out), .Display(HEX0));
 		char_7seg H1 (.S(hex1char_out), .Display(HEX1));
 		char_7seg H2 (.S(hex2char_out), .Display(HEX2));
+		char_7seg H4 (.S(hexnegchar_out), .Display(HEX3));
 		//~~~~~~~~~~~~
 
 endmodule 

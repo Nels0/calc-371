@@ -16,7 +16,7 @@ module char_7seg( input [3:0] S,
 		4'b1000  : Display <= 7'b0000000; //8
 		4'b1001  : Display <= 7'b0001100; //9
 		4'b1010  : Display <= 7'b1111010; //r
-		4'b1011  : Display <= 7'b1111110; //-
+		4'b1110  : Display <= 7'b1111110; //-
 		default  : Display <= 7'b1111111; //blank
 		endcase
 	end

@@ -8,6 +8,7 @@ module control (input dig_in,
 				input MC_in,
 				input sub_in,
 				input clock,
+				output [2:0] LED,
 				output reg bksp_A,
 				output reg bksp_B,
 				output reg load_A,
@@ -16,9 +17,11 @@ module control (input dig_in,
 				output reg execute,
 				output reg [1:0] display_select);
 				
-	parameter op_A = 0, op_B = 1, oprnd = 2, result = 3, start = 4, op_A_neg = 5, op_B_neg = 6;
+	parameter start = 0, op_A = 1, op_A_neg = 2, oprnd = 3, op_B = 4, op_B_neg = 5, result = 6;
 	
 	reg[2:0]state = start;
+	
+	assign LED[2:0] = state[2:0];
 	
 	always @(posedge clock) begin
 		case(state)
@@ -28,6 +31,7 @@ module control (input dig_in,
 			end
 			op_A: begin
 				if(op_in) state = oprnd;
+				if(reset_in) state = start;
 			end
 			op_A_neg: begin
 				if (sub_in) state = start;
@@ -42,11 +46,11 @@ module control (input dig_in,
 			op_B: begin
 				if(ex_in) state = result;
 				if(reset_in) state = start;
-				if(reset_in) state = start;
 			end
 			op_B_neg: begin
 				if (sub_in) state = oprnd;
 				if (dig_in) state = op_B;
+				if(reset_in) state = start;
 			end
 			result: begin
 				if(reset_in) state = start;
@@ -65,7 +69,6 @@ module control (input dig_in,
 		case(state)
 			start: begin
 				if (sub_in || dig_in) load_A <= 1'b1;
-				if (dig_in) load_A <= 1'b1;
 				display_select <= 2'b00;
 			end
 			op_A: begin
@@ -78,7 +81,6 @@ module control (input dig_in,
 				if(dig_in) load_B <= 1;
 				if(bksp_in) bksp_B <= 1;
 				if(ex_in) execute <= 1;
-				if(dig_in) load_B <= 1;
 				display_select = 2'b01;
 			end
 			op_A_neg: begin
@@ -87,7 +89,7 @@ module control (input dig_in,
 			end
 			op_B_neg: begin
 				if (sub_in) bksp_B <= 1'b1;
-				display_select = 2'b00;
+				display_select = 2'b01;
 			end
 			oprnd: begin
 				if (sub_in || dig_in) load_B <= 1'b1;

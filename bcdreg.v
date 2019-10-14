@@ -3,17 +3,13 @@ module bcdreg (input clock,
 			input load,
 			input bksp,
 			input clear,
-			output reg [3:0] bcd1, bcd10, bcd100, bcdneg,
-			output reg empty
+			output reg [3:0] bcd1, bcd10, bcd100, bcdneg
 );
 			
 	always @ (posedge clock) begin
-			
-			empty = (bcd1 > 4'b1001 && bcd10 > 4'b1001 && bcd100 > 4'b1001)? 1'b1:1'b0;
-	
 			if (clear) begin
 				//blank character
-				bcd1 <= 4'b0000; 
+				bcd1 <= 4'b1111; 
 				bcd10 <= 4'b1111;
 				bcd100 <= 4'b1111;				
 				bcdneg <= 4'b1111;
@@ -27,14 +23,13 @@ module bcdreg (input clock,
 					bcd100 <= 4'b1111;
 				end
 			end else if (load) begin
-				if (bcd100 == 4'b1011) begin
+				if (bcd100 == 4'b1110) begin
 					bcdneg = bcd100;
 				end
 				bcd100 <= bcd10;
 				bcd10 <= bcd1;
 				bcd1 <= digit;
 			end
-			
 			
 	end
 endmodule 
