@@ -3,10 +3,7 @@ module calculator (input [3:0] ROW,
 							input [3:0] KEY,
 							input [17:0] SW,
 							output [3:0] COL,
-							output [0:6] HEX0,
-							output [0:6] HEX1,
-							output [0:6] HEX2,
-							output [0:6] HEX3,
+							output [0:6] HEX0, HEX1, HEX2, HEX3, HEX4, HEX5, HEX6, HEX7,
 							output [7:0] LEDG,
 							output [17:0] LEDR);
 							
@@ -43,6 +40,7 @@ module calculator (input [3:0] ROW,
 		wire [1:0] op_code;
 		
 		//////////////////////////////////////////////////////////////////////////////////////////////////DEBUGGING
+		assign LEDR = keycode;
 		//////////////////////////////////////////////////////////////////////////////////////////////////DEBUGGING
 		
 		inputhandler keypad (
@@ -100,15 +98,14 @@ module calculator (input [3:0] ROW,
 		
 		//OPERAND REGISTERS
 		
+		wire[31:0] reg_A, reg_B, reg_result;
+		
 		bcdreg operand_A (.clock(clockmain),
 							.digit(dig_code),
 							.load(load_A),
 							.bksp(bksp_A),
 							.clear(reset_state),
-							.bcd1(hex0char_A),
-							.bcd10(hex1char_A),
-							.bcd100(hex2char_A),
-							.bcdneg(bcdneg_A)
+							.bcdreg(reg_A)
 							);
 							
 		bcdreg operand_B (.clock(clockmain),
@@ -116,10 +113,7 @@ module calculator (input [3:0] ROW,
 							.load(load_B),
 							.bksp(bksp_B),
 							.clear(reset_state),
-							.bcd1(hex0char_B),
-							.bcd10(hex1char_B),
-							.bcd100(hex2char_B),
-							.bcdneg(bcdneg_B)
+							.bcdreg(reg_B)
 							);
 							
 		//~~~~~~~~~~~~
@@ -137,27 +131,30 @@ module calculator (input [3:0] ROW,
 		
 		wire [3:0] hex0char_A, hex1char_A, hex2char_A, bcdneg_A;
 		wire [3:0] hex0char_B, hex1char_B, hex2char_B, bcdneg_B;
-		wire [3:0] hex0char_out, hex1char_out, hex2char_out, hexnegchar_out;
+		wire [3:0] hex0_out, hex1_out, hex2_out, hex3_out, hex4_out, hex5_out, hex6_out, hex7_out;
 		
 		displaymux displayMUX (.display_select(display_select),
-								.hex0char_A(hex0char_A), 
-								.hex1char_A(hex1char_A), 
-								.hex2char_A(hex2char_A),
-								.bcdneg_A(bcdneg_A),
-								.hex0char_B(hex0char_B), 
-								.hex1char_B(hex1char_B), 
-								.hex2char_B(hex2char_B),
-								.bcdneg_B(bcdneg_B),
-								.hex0char_out(hex0char_out),
-								.hex1char_out(hex1char_out), 
-								.hex2char_out(hex2char_out),
-								.hexnegchar_out(hexnegchar_out)
+								.reg_A(reg_A),
+								.reg_B(reg_B),
+								.reg_result(reg_result),
+								.hex0_out(hex0_out), 
+								.hex1_out(hex1_out), 
+								.hex2_out(hex2_out), 
+								.hex3_out(hex3_out), 
+								.hex4_out(hex4_out), 
+								.hex5_out(hex5_out), 
+								.hex6_out(hex6_out), 
+								.hex7_out(hex7_out)
 								);
 		
-		char_7seg H0 (.S(hex0char_out), .Display(HEX0));
-		char_7seg H1 (.S(hex1char_out), .Display(HEX1));
-		char_7seg H2 (.S(hex2char_out), .Display(HEX2));
-		char_7seg H4 (.S(hexnegchar_out), .Display(HEX3));
+		char_7seg H0 (.S(hex0_out), .Display(HEX0));
+		char_7seg H1 (.S(hex1_out), .Display(HEX1));
+		char_7seg H2 (.S(hex2_out), .Display(HEX2));
+		char_7seg H3 (.S(hex3_out), .Display(HEX3));
+		char_7seg H4 (.S(hex4_out), .Display(HEX4));
+		char_7seg H5 (.S(hex5_out), .Display(HEX5));
+		char_7seg H6 (.S(hex6_out), .Display(HEX6));
+		char_7seg H7 (.S(hex7_out), .Display(HEX7));
 		//~~~~~~~~~~~~
 
 endmodule 
