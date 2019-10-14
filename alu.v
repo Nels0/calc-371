@@ -95,7 +95,7 @@ module alu#(parameter BITS = 21)
 					end
 					
 					
-					if(regA[10] == 1 && remainder != 21'd0) begin //handle the STUPID case
+					if(regA[10] == 1'b1 && remainder != 21'd0) begin //handle the STUPID case
 						remainder = D - remainder;
 						result = result + 1'b1;
 					end
