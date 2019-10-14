@@ -74,7 +74,7 @@ module calculator (input [3:0] ROW,
 		//CONTROL UNIT
 		
 		wire [1:0] display_select;
-		wire load_op, execute;
+		wire load_op, reset_state, execute;
 		
 		control FSM (
 			.dig_in(dig_strobe),
@@ -93,6 +93,7 @@ module calculator (input [3:0] ROW,
 			.load_A(load_A),
 			.load_B(load_B),
 			.load_op(load_op),
+			.reset_out(reset_state),
 			.execute(execute), //this is signal for ALU to execute the operation
 			.display_select(display_select)
 		);
@@ -103,7 +104,7 @@ module calculator (input [3:0] ROW,
 							.digit(dig_code),
 							.load(load_A),
 							.bksp(bksp_A),
-							.clear(reset_strobe),
+							.clear(reset_state),
 							.bcd1(hex0char_A),
 							.bcd10(hex1char_A),
 							.bcd100(hex2char_A),
@@ -114,7 +115,7 @@ module calculator (input [3:0] ROW,
 							.digit(dig_code),
 							.load(load_B),
 							.bksp(bksp_B),
-							.clear(reset_strobe),
+							.clear(reset_state),
 							.bcd1(hex0char_B),
 							.bcd10(hex1char_B),
 							.bcd100(hex2char_B),

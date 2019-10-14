@@ -15,6 +15,7 @@ module control (input dig_in,
 				output reg load_B,
 				output reg load_op,
 				output reg execute,
+				output reg reset_out,
 				output reg [1:0] display_select);
 				
 	parameter start = 0, op_A = 1, op_A_neg = 2, oprnd = 3, op_B = 4, op_B_neg = 5, result = 6;
@@ -34,7 +35,7 @@ module control (input dig_in,
 				if(reset_in) state = start;
 			end
 			op_A_neg: begin
-				if (sub_in) state = start;
+				if (sub_in || bksp_in) state = start;
 				if (dig_in) state = op_A;
 				if(reset_in) state = start;
 			end
@@ -48,7 +49,7 @@ module control (input dig_in,
 				if(reset_in) state = start;
 			end
 			op_B_neg: begin
-				if (sub_in) state = oprnd;
+				if (sub_in || bksp_in) state = oprnd;
 				if (dig_in) state = op_B;
 				if(reset_in) state = start;
 			end
@@ -65,11 +66,15 @@ module control (input dig_in,
 		load_B <= 0;
 		load_op <= 0;
 		execute <= 0;
+		reset_out <= 0;
 			
 		case(state)
 			start: begin
-				if (sub_in || dig_in) load_A <= 1'b1;
+				if (sub_in || dig_in) load_A <= 1;
+				else 	reset_out <= 1;
+				
 				display_select <= 2'b00;
+
 			end
 			op_A: begin
 				if(dig_in) load_A <= 1;
@@ -84,11 +89,13 @@ module control (input dig_in,
 				display_select = 2'b01;
 			end
 			op_A_neg: begin
-				if (sub_in) bksp_A <= 1'b1;
+				if(dig_in) load_A <= 1;
+				if (sub_in || bksp_in) bksp_A <= 1'b1;
 				display_select = 2'b00;
 			end
 			op_B_neg: begin
-				if (sub_in) bksp_B <= 1'b1;
+				if(dig_in) load_B <= 1;
+				if (sub_in || bksp_in) bksp_B <= 1'b1;
 				display_select = 2'b01;
 			end
 			oprnd: begin
@@ -97,6 +104,9 @@ module control (input dig_in,
 			end
 			result: begin
 				display_select = 2'b10;
+			end
+			default : begin
+				display_select <= 2'b00;
 			end
 		endcase
 	end
