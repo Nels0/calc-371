@@ -1,8 +1,10 @@
 module bcdreg (input clock,
 			input [3:0] digit,
+			input [31:0] mem,
 			input load,
 			input bksp,
 			input clear,
+			input load_mem,
 			output reg [31:0] bcdreg
 );
 		
@@ -10,6 +12,10 @@ module bcdreg (input clock,
 			if (clear) begin
 				//blank characters
 				bcdreg = {8{4'b1111}};
+			end else if (load_mem) begin
+			
+				bcdreg = mem;
+			
 			end else if (bksp) begin
 			
 				bcdreg = bcdreg >> 4;
