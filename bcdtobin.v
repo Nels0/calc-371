@@ -1,7 +1,5 @@
-module bcdtobin #(
-	parameter BITS = 11, 
-	parameter BCDDIG = 4 )(
-	input [3:0] BCD0, BCD1, BCD2, BCD3,
+module bcdtobin (
+	input [31:0] BCD,
 	output reg signed [10:0] binout);
 	
 
@@ -9,29 +7,29 @@ module bcdtobin #(
 	
 	always @ (*) begin
 		
-		temp = 11'd0; //initialise to zero
+		temp = 32'd0; //initialise to zero
 		
-		if(BCD0 < 4'b1001) begin //IsNumeric
-			temp = temp + BCD0;		
-		end else if (BCD0 == 4'b1011) begin //isNeg
+		if(BCD[3:0] < 4'b1001) begin //1's dig IsNumeric
+			temp = temp + BCD[3:0];		
+		end else if (BCD[3:0] == 4'b1110) begin //isNeg
 			temp = -temp;
 		end
 		
-		if(BCD1 < 4'b1001) begin //IsNumeric
-			temp = temp + (11'd10*BCD1);		
-		end else if (BCD1 == 4'b1011) begin //isNeg
+		if(BCD[7:4] < 4'b1001) begin //IsNumeric
+			temp = temp + (11'd10*BCD[7:4]);		
+		end else if (BCD[7:4] == 4'b1110) begin //isNeg
 			temp = -temp;
 		end
 		
 		
-		if(BCD2 < 4'b1001) begin //IsNumeric
-			temp = temp + (11'd100 * BCD2);
-		end else if (BCD2 == 4'b1011) begin //isNeg
+		if(BCD[11:7] < 4'b1001) begin //IsNumeric
+			temp = temp + (11'd100 * BCD[11:7]);
+		end else if (BCD[11:8] == 4'b1110) begin //isNeg
 			temp = -temp;
 		end
 		
 	
-		if(BCD3 == 4'b1011) begin //is negative
+		if(BCD[15:12] == 4'b1110) begin //is negative
 			temp = -temp;
 		
 		end

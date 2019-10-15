@@ -51,7 +51,7 @@ module bintobcd(input signed [20:0] bin,
 			end
 			
 
-			masterreg[51:48] = (negative)? 4'b1011 : 4'b1111;
+			masterreg[51:48] = (negative)? 4'b1110 : 4'b1111;
 			
 			bcdnum = masterreg[51:20];
 		  

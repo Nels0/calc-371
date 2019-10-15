@@ -100,7 +100,7 @@ module control (input dig_in,
 			end
 			oprnd: begin
 				if (sub_in || dig_in) load_B <= 1'b1;
-				display_select = 2'b00;
+				display_select = 2'b01;
 			end
 			result: begin
 				display_select = 2'b10;

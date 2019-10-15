@@ -18,6 +18,6 @@ assign op_strobe = ((keycode > 4'b1011) && keystrobe)? 1:0;
 assign sub_strobe = ((keycode == 4'b1110) && keystrobe)? 1:0;
 
 assign dig_code = keycode;
-assign op_code = {~keycode[1],~keycode[0]}; // + = 0, - = 1, * = 2, / = 3
+assign op_code = ~keycode[1:0]; // + = 0, - = 1, * = 2, / = 3
 
 endmodule

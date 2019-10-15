@@ -1,3 +1,6 @@
+
+`default_nettype none
+
 module calculator (input [3:0] ROW,
 							input CLOCK_50,
 							input [3:0] KEY,
@@ -40,7 +43,6 @@ module calculator (input [3:0] ROW,
 		wire [1:0] op_code;
 		
 		//////////////////////////////////////////////////////////////////////////////////////////////////DEBUGGING
-		assign LEDR = keycode;
 		//////////////////////////////////////////////////////////////////////////////////////////////////DEBUGGING
 		
 		inputhandler keypad (
@@ -98,7 +100,7 @@ module calculator (input [3:0] ROW,
 		
 		//OPERAND REGISTERS
 		
-		wire[31:0] reg_A, reg_B, reg_result;
+		wire[31:0] reg_A, reg_B;
 		
 		bcdreg operand_A (.clock(clockmain),
 							.digit(dig_code),
@@ -122,10 +124,36 @@ module calculator (input [3:0] ROW,
 		
 		wire [1:0] operator;
 		
-		opreg op (.load(load_op),
+		opreg op (.clock(clockmain),
+			.load(load_op),
 			.op_code(op_code),
 			.operator(operator)
 		);
+		//~~~~~~~~~~~~
+		
+		//ALU
+		wire [10:0] reg_A_binary, reg_B_binary;
+		wire [31:0] reg_result;
+		wire [20:0] result_bin, remainder_bin; 
+		wire remain;
+			
+		bcdtobin reg_A_tobinary (.BCD(reg_A), .binout(reg_A_binary));
+		bcdtobin reg_B_tobinary (.BCD(reg_B), .binout(reg_B_binary));
+		
+		alu alu_1 (.regA(reg_A_binary), 
+					.regB(reg_B_binary),
+					.opcode(operator),
+					.clock(clockmain),
+					.computestrobe(execute),
+					.result(result_bin),
+					.remain(remain),
+					.remainder(remainder_bin));
+					
+		//DEBugging
+		bintobcd debugconversion(.bin(result_bin), .bcdnum(reg_result));
+		//~~~~~~~~~~
+		assign LEDR = op_code;
+		//~~~~~~~~~~~
 
 		//DISPLAY
 		

@@ -5,8 +5,7 @@
 
 //asd
 
-module alu#(parameter BITS = 21)
-				 (input signed [10:0] regA, regB, //11-bit reg for signed int +999 to -999
+module alu (input signed [10:0] regA, regB, //11-bit reg for signed int +999 to -999
 				input [1:0] opcode,
 				input clock, computestrobe,
 				output reg signed[20:0] result, //21-bit reg for signed int +999*999 to -999*999
@@ -14,13 +13,15 @@ module alu#(parameter BITS = 21)
 				output reg [20:0] remainder // Where values are 1, the mux should display that as remainder?
 				);
 
-  reg [10:0] N, D;
+	reg [10:0] N, D;
 	reg signed [22:0] P;
 	integer i;
 	
 	always @(posedge clock) begin
 		if (computestrobe) begin 
 
+			remain <= 1'b0;
+			
 			case(opcode)
 			`add : begin 
 				result = regA + regB;
@@ -76,7 +77,6 @@ module alu#(parameter BITS = 21)
 
 				result = 21'd0;
 				remainder = 21'd0;
-				remain = 1'b0;
 				
 				//Convert N and D to magnitude only
 				N = (regA[10] == 1)? -regA: regA;
@@ -104,7 +104,7 @@ module alu#(parameter BITS = 21)
 					result = ((regA[10] == 1)^(regB[10] == 1))? -result:result;
 					//stupid case: remainder is positive
 					//remainder = ((regA[10] == 1)^(regB[10] == 1))? -remainder : remainder;
-					remain = |remainder;
+					remain <= 1'b1;
 				end
 				
 				
