@@ -151,17 +151,17 @@ module calculator (input [3:0] ROW,
 					
 		
 		
-		/*resultformatter resultformatter_1 (.clock(clockmain),
+		resultformatter resultformatter_1 (.clock(clockmain),
 														.remain(remain),
 														.ALUresult(result_bin),
 														.ALUremainder(remainder_bin),
 														.formattedresult(reg_result),
 														.result_formem(reg_memresult));
-		*/
+		
 		//~~~~~~~~~~
 		
 		//DEBugging
-		bintobcd debugconversion(.bin(result_bin), .bcdnum(reg_result));
+		//bintobcd debugconversion(.bin(result_bin), .bcdnum(reg_result));
 		
 		assign LEDR = result_bin;
 		//~~~~~~~~~~~

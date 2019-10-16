@@ -38,26 +38,22 @@ module resultformatter (input clock, remain,
 	
 		//ALU result format
 		for (i = 0; i < 8; i = i + 1) begin
+			formattedresult = formattedresult >> 4; //shift right
 			if (remainder_used < length_remainder && remain) begin //Put in remainder
-				formattedresult = formattedresult >> 4; //shift right
 				formattedresult[31:28] = temp_remainder[3:0]; //add remainder digit
 				temp_remainder = temp_remainder >> 4; //shift remainder used
 				remainder_used = remainder_used + 1; //keep track
 			end else if (remainder_used == length_remainder && remain) begin
-				formattedresult = formattedresult >> 4; //put in "r"
 				formattedresult[31:28] = 4'b1010; //"r" 
 				remainder_used = remainder_used + 1;
 			end else if (result_used < length_result) begin //put in result
-				formattedresult = formattedresult >> 4;
 				formattedresult[31:28] = temp_result[3:0];
 				temp_result = temp_result >> 4;
 				result_used = result_used + 1; //keep track
 			end else if (result_used == length_result && result_neg == 1) begin //put in negative
-				formattedresult = formattedresult >> 4;
 				formattedresult[31:28] = 4'b1110; //"r"
 				result_used = result_used + 1;
 			end else begin
-				formattedresult = formattedresult >> 4; //fill the rest with blanks
 				formattedresult[31:28] = 4'b1111; //blank
 			end
 		end
@@ -70,13 +66,12 @@ module resultformatter (input clock, remain,
 		temp_result_1 = result_bcd;
 		
 		for (i = 0; i < 8; i = i + 1) begin
+			result_formem = result_formem >> 4;
 			if (result_used_1 < length_result && result_used_1 < 3'd3) begin //put in last 3 digs of result
-				result_formem = result_formem >> 4;
 				result_formem[31:28] = temp_result_1[3:0];
 				temp_result_1 = temp_result_1 << 4;
 				result_used_1 = result_used_1 + 1;
 			end else begin
-				result_formem = result_formem >> 4; //fill the rest with blanks
 				result_formem[31:28] = 4'b1111; //blank
 			end
 		end

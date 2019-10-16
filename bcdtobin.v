@@ -9,21 +9,21 @@ module bcdtobin (
 		
 		temp = 32'd0; //initialise to zero
 		
-		if(BCD[3:0] < 4'b1001) begin //1's dig IsNumeric
+		if(BCD[3:0] < 4'b1010) begin //1's dig IsNumeric
 			temp = temp + BCD[3:0];		
 		end else if (BCD[3:0] == 4'b1110) begin //isNeg
 			temp = -temp;
 		end
 		
-		if(BCD[7:4] < 4'b1001) begin //IsNumeric
+		if(BCD[7:4] < 4'b1010) begin //IsNumeric
 			temp = temp + (11'd10*BCD[7:4]);		
 		end else if (BCD[7:4] == 4'b1110) begin //isNeg
 			temp = -temp;
 		end
 		
 		
-		if(BCD[11:7] < 4'b1001) begin //IsNumeric
-			temp = temp + (11'd100 * BCD[11:7]);
+		if(BCD[11:8] < 4'b1010) begin //IsNumeric
+			temp = temp + (11'd100 * BCD[11:8]);
 		end else if (BCD[11:8] == 4'b1110) begin //isNeg
 			temp = -temp;
 		end
