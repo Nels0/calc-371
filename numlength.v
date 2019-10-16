@@ -1,7 +1,7 @@
 module numlength (input signed [21:0] binary_num,
 	output reg [2:0]length);
 	
-reg [21:0] abs_num;
+reg signed [21:0] abs_num;
 
 always @ (*) begin
 	abs_num = (binary_num[21] == 1)? -binary_num: binary_num;

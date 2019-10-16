@@ -12,4 +12,7 @@ force -freeze sim:/numlength/binary_num 0111000000000000000000 0
 run
 force -freeze sim:/numlength/binary_num 011110011101001110001 0
 run
-
+force -freeze sim:/numlength/binary_num 1111110011101001110001 0
+run
+force -freeze sim:/numlength/binary_num 1111111111111111111011 0
+run
