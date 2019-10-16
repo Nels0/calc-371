@@ -69,7 +69,7 @@ module resultformatter (input clock, remain,
 			result_formem = result_formem >> 4;
 			if (result_used_1 < length_result && result_used_1 < 3'd3) begin //put in last 3 digs of result
 				result_formem[31:28] = temp_result_1[3:0];
-				temp_result_1 = temp_result_1 << 4;
+				temp_result_1 = temp_result_1 >> 4;
 				result_used_1 = result_used_1 + 1'd1;
 			end else begin
 				result_formem[31:28] = 4'b1111; //blank

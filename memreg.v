@@ -9,11 +9,11 @@ module memreg (input clock,
 			if (clear) begin
 			
 				//we need to decide on default case, 0?
-				bcdreg = {7{4'b1111},4b'0000};
+				memreg = {{7{4'b1111}},4'b0000};
 				
 			end else if (load) begin
 			
-				bcdreg = mem;
+				memreg = mem_input;
 			
 			end 
 			

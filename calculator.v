@@ -4,11 +4,8 @@
 module calculator (input [3:0] ROW,
 							input CLOCK_50,
 							input [3:0] KEY,
-							input [17:0] SW,
 							output [3:0] COL,
 							output [0:6] HEX0, HEX1, HEX2, HEX3, HEX4, HEX5, HEX6, HEX7
-							//output [7:0] LEDG,
-							//output [17:0] LEDR
 							);
 							
 		
@@ -44,6 +41,7 @@ module calculator (input [3:0] ROW,
 		wire [1:0] op_code;
 		
 		//////////////////////////////////////////////////////////////////////////////////////////////////DEBUGGING
+		
 		//////////////////////////////////////////////////////////////////////////////////////////////////DEBUGGING
 		
 		inputhandler keypad (
@@ -75,7 +73,7 @@ module calculator (input [3:0] ROW,
 		//CONTROL UNIT
 		
 		wire [1:0] display_select;
-		wire load_op, reset_state, execute;
+		wire load_op, reset_state, execute, load_A_mem, load_B_mem, load_mem, clear_mem;
 		
 		control FSM (
 			.dig_in(dig_strobe),
@@ -88,11 +86,14 @@ module calculator (input [3:0] ROW,
 			.MC_in(MC_strobe),
 			.sub_in(sub_strobe),
 			.clock(clockmain),
-			//.LED(LEDG[2:0]),
 			.bksp_A(bksp_A),
 			.bksp_B(bksp_B),
 			.load_A(load_A),
 			.load_B(load_B),
+			.load_mem(load_mem),
+			.clear_mem(clear_mem),
+			.load_A_mem(load_A_mem),
+			.load_B_mem(load_B_mem),
 			.load_op(load_op),
 			.reset_out(reset_state),
 			.execute(execute), //this is signal for ALU to execute the operation
@@ -108,7 +109,9 @@ module calculator (input [3:0] ROW,
 							.load(load_A),
 							.bksp(bksp_A),
 							.clear(reset_state),
-							.bcdreg(reg_A)
+							.bcdreg(reg_A),
+							.mem(memory_stored),
+							.load_mem(load_A_mem)
 							);
 							
 		bcdreg operand_B (.clock(clockmain),
@@ -116,7 +119,9 @@ module calculator (input [3:0] ROW,
 							.load(load_B),
 							.bksp(bksp_B),
 							.clear(reset_state),
-							.bcdreg(reg_B)
+							.bcdreg(reg_B),
+							.mem(memory_stored),
+							.load_mem(load_B_mem)
 							);
 							
 		//~~~~~~~~~~~~
@@ -161,12 +166,25 @@ module calculator (input [3:0] ROW,
 		
 		//~~~~~~~~~~
 		
-		//DEBugging
-		//bintobcd debugconversion(.bin(result_bin), .bcdnum(reg_result));
+		//MEMORY
 		
-		//assign LEDR = result_bin;
+		wire [31:0] memory_selected, memory_stored;
+		
+		memmux memory_select (.display_select(display_select),
+									.A(reg_A),
+									.B(reg_B),
+									.result(reg_memresult),
+									.mem_input(memory_selected));
+		
+		memreg memory_register (.clock(clockmain),
+										.mem_input(memory_selected),
+										.load(load_mem),
+										.clear(clear_mem),
+										.memreg(memory_stored));
+			
 		//~~~~~~~~~~~
-
+		
+		
 		//DISPLAY
 		
 		wire [3:0] hex0char_A, hex1char_A, hex2char_A, bcdneg_A;

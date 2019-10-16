@@ -11,6 +11,7 @@ module bcdreg (input clock,
 	always @ (posedge clock) begin
 			if (clear) begin
 				//blank characters
+				//bcdreg = {{7{4'b1111}}, 4'b0000};
 				bcdreg = {8{4'b1111}};
 			end else if (load_mem) begin
 			
