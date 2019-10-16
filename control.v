@@ -8,7 +8,6 @@ module control (input dig_in,
 				input MC_in,
 				input sub_in,
 				input clock,
-				output [2:0] LED,
 				output reg bksp_A,
 				output reg bksp_B,
 				output reg load_A,
@@ -22,11 +21,10 @@ module control (input dig_in,
 				output reg reset_out,
 				output reg [1:0] display_select);
 				
-	parameter start = 0, op_A = 1, op_A_neg = 2, oprnd = 3, op_B = 4, op_B_neg = 5, result = 6;
+	parameter [2:0] start = 0, op_A = 1, op_A_neg = 2, oprnd = 3, op_B = 4, op_B_neg = 5, result = 6;
 	
 	reg[2:0]state = start;
 	
-	assign LED[2:0] = state[2:0];
 	
 	always @(posedge clock) begin
 		case(state)
@@ -68,8 +66,8 @@ module control (input dig_in,
 		bksp_B <= 0;
 		load_A <= 0;
 		load_B <= 0;
-		load_mem <= (MS_in)? 1:0;
-		clear_mem <= (MC_in)? 1:0;
+		load_mem <= (MS_in)? 1'b1:1'b0;
+		clear_mem <= (MC_in)? 1'b1:1'b0;
 		load_A_mem <= 0;
 		load_B_mem <= 0;
 		load_op <= 0;

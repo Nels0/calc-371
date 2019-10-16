@@ -3,11 +3,11 @@ module bcdtobin (
 	output reg signed [10:0] binout);
 	
 
-	reg signed [10:0]temp;
+	reg signed [10:0] temp;
 	
 	always @ (*) begin
 		
-		temp = 32'd0; //initialise to zero
+		temp = 11'd0; //initialise to zero
 		
 		if(BCD[3:0] < 4'b1010) begin //1's dig IsNumeric
 			temp = temp + BCD[3:0];		

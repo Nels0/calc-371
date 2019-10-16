@@ -13,13 +13,13 @@ module debouncer #(parameter DBDIVISION = 10, parameter DBPERIOD = 10)(
 
 	always @ (posedge debounceclock) begin
 		if (signal) begin
-			debouncetimer = debouncetimer + 1;
+			debouncetimer = debouncetimer + 1'b1;
 		end
 		if (~signal) begin
 			debouncetimer = 0;
 		end
 	end
 	
-	assign db_signal = (debouncetimer > debouncecount)? 1:0;
+	assign db_signal = (debouncetimer > debouncecount)? 1'b1:1'b0;
 		
 endmodule 

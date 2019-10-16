@@ -4,11 +4,11 @@ module clock_divider
 	output wire slow_clock
 );
 
-	reg [DIVISION+1:0] clock_counter = DIVISION+1'd0;
+	reg [22:0] clock_counter = 22'd0;
 
 	always @(posedge clock) begin
 
-		clock_counter = clock_counter + 1;
+		clock_counter = clock_counter + 1'b1;
 		
 	end
 

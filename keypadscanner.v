@@ -3,8 +3,8 @@ module keypadscanner(
 			input [3:0] row,
 			output [3:0] keycode,
 			output reg [3:0] col,
-			output reg keypressed,
-			output [7:0] rawcode); 
+			output reg keypressed
+			); 
 			
 			
 		//Doesn't handle 2 key presses well
@@ -27,13 +27,13 @@ module keypadscanner(
 		begin
 			if (&row) begin //if any key detected as pressed stop iterating over cols
 				if (n < 3) begin //iterate over cols
-					n = n + 1;
+					n = n + 1'b1;
 				end else begin
 					n = 0;
 				end
 			end
 			
-			keypressed = (~&row)? 1:0;
+			keypressed = (~&row)? 1'b1:1'b0;
 			
 			//Decoder to set nth bit to 0
 			col[3:0] = {4{1'b1}};
@@ -45,7 +45,6 @@ module keypadscanner(
 		
 		//connect decoder
 		keypadtohex keyencoder(.col(col), .row(row), .hexcode(keycode));
-	
-		assign rawcode = {col, row};
+
 	
 	endmodule 

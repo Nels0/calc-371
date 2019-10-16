@@ -9,6 +9,6 @@ module posedgetrigger (
 			signal_last <= signal;
 	end
 	
-	assign strobe = (signal && ~signal_last)? 1:0;
+	assign strobe = (signal && ~signal_last)? 1'b1:1'b0;
 	
 endmodule 
