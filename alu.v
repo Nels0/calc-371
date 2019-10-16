@@ -55,8 +55,8 @@ module alu (input signed [10:0] regA, regB, //11-bit reg for signed int +999 to 
 					
 				end
 				
-				//Trim zero bit off
-				result = P [22:1];
+				//Trim zero and leading bit off
+				result = P [21:1];
 				
 			end
 				

@@ -54,7 +54,7 @@ module control (input dig_in,
 				if(reset_in) state = start;
 			end
 			result: begin
-				if(reset_in) state = start;
+				if (reset_in || dig_in) state = start;
 			end
 		endcase
 	end

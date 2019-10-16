@@ -6,9 +6,10 @@ module calculator (input [3:0] ROW,
 							input [3:0] KEY,
 							input [17:0] SW,
 							output [3:0] COL,
-							output [0:6] HEX0, HEX1, HEX2, HEX3, HEX4, HEX5, HEX6, HEX7,
-							output [7:0] LEDG,
-							output [17:0] LEDR);
+							output [0:6] HEX0, HEX1, HEX2, HEX3, HEX4, HEX5, HEX6, HEX7
+							//output [7:0] LEDG,
+							//output [17:0] LEDR
+							);
 							
 		
 		//CLOCK
@@ -23,7 +24,7 @@ module calculator (input [3:0] ROW,
 		wire load_A, load_B;
 		wire bksp_A, bksp_B;
 		wire switchregister;
-		keypadscanner KeyScan0(.clock(clockmain),
+		keypadscanner KeyScan0(.clock(CLOCK_50),
 										.row(ROW),
 										.col(COL),
 										.keycode(keycode),
@@ -31,7 +32,7 @@ module calculator (input [3:0] ROW,
 										
 		debouncer #(.DBDIVISION(10), //divides clock by 2^DBDIVISOn
 				.DBPERIOD(5)) keydebouncer ( //debounce period in MS
-				.clock(clockmain),
+				.clock(CLOCK_50),
 				.signal(keypressed),
 				.db_signal(db_keypressed)); //debounced keypress signal
 		posedgetrigger keypressedge (.clock(clockmain), .signal(db_keypressed), .strobe(keystrobe));
@@ -87,7 +88,7 @@ module calculator (input [3:0] ROW,
 			.MC_in(MC_strobe),
 			.sub_in(sub_strobe),
 			.clock(clockmain),
-			.LED(LEDG[2:0]),
+			//.LED(LEDG[2:0]),
 			.bksp_A(bksp_A),
 			.bksp_B(bksp_B),
 			.load_A(load_A),
@@ -163,7 +164,7 @@ module calculator (input [3:0] ROW,
 		//DEBugging
 		//bintobcd debugconversion(.bin(result_bin), .bcdnum(reg_result));
 		
-		assign LEDR = result_bin;
+		//assign LEDR = result_bin;
 		//~~~~~~~~~~~
 
 		//DISPLAY
