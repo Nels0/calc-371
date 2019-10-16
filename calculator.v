@@ -133,7 +133,7 @@ module calculator (input [3:0] ROW,
 		
 		//ALU
 		wire [10:0] reg_A_binary, reg_B_binary;
-		wire [31:0] reg_result;
+		wire [31:0] reg_result, reg_memresult;
 		wire [20:0] result_bin, remainder_bin; 
 		wire remain;
 			
@@ -149,10 +149,21 @@ module calculator (input [3:0] ROW,
 					.remain(remain),
 					.remainder(remainder_bin));
 					
+		
+		
+		/*resultformatter resultformatter_1 (.clock(clockmain),
+														.remain(remain),
+														.ALUresult(result_bin),
+														.ALUremainder(remainder_bin),
+														.formattedresult(reg_result),
+														.result_formem(reg_memresult));
+		*/
+		//~~~~~~~~~~
+		
 		//DEBugging
 		bintobcd debugconversion(.bin(result_bin), .bcdnum(reg_result));
-		//~~~~~~~~~~
-		assign LEDR = op_code;
+		
+		assign LEDR = result_bin;
 		//~~~~~~~~~~~
 
 		//DISPLAY
