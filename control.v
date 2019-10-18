@@ -21,7 +21,7 @@ module control (input dig_in,
 				output reg reset_out,
 				output reg [1:0] display_select);
 				
-	parameter [2:0] start = 0, op_A = 1, op_A_neg = 2, oprnd = 3, op_B = 4, op_B_neg = 5, result = 6;
+	parameter start = 0, op_A = 1, op_A_neg = 2, oprnd = 3, op_B = 4, op_B_neg = 5, result = 6;
 	
 	//initial state start
 	reg[2:0]state = start;
