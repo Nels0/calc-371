@@ -19,9 +19,9 @@ module control (input dig_in,
 				output reg load_op,
 				output reg execute,
 				output reg reset_out,
-				output reg [1:0] disp_sel);
+				output reg [1:0] display_select);
 				
-	parameter [2:0] start = 0, op_A = 1, op_A_neg = 2, operator = 3, op_B = 4, op_B_neg = 5, result = 6;
+	parameter [2:0] start = 0, op_A = 1, op_A_neg = 2, oprnd = 3, op_B = 4, op_B_neg = 5, result = 6;
 	
 	reg[2:0]state = start;
 	
@@ -41,7 +41,7 @@ module control (input dig_in,
 				if (dig_in || MR_in) state = op_A;
 				if(reset_in) state = start;
 			end
-			operator: begin
+			oprnd: begin
 				if (sub_in) state = op_B_neg;
 				if(dig_in) state = op_B;
 				if(reset_in) state = start;
@@ -80,7 +80,7 @@ module control (input dig_in,
 				else if (sub_in || dig_in) load_A <= 1;
 				else 	reset_out <= 1;
 								
-				disp_sel <= 2'b00;
+				display_select <= 2'b00;
 
 			end
 			op_A: begin
@@ -88,36 +88,36 @@ module control (input dig_in,
 				if(MR_in) load_A_mem <=1;
 				if(bksp_in) bksp_A <= 1;
 				if (op_in) load_op <= 1;
-				disp_sel = 2'b00;
+				display_select = 2'b00;
 			end
 			op_B: begin
 				if(dig_in) load_B <= 1;
 				if(MR_in) load_B_mem <=1;
 				if(bksp_in) bksp_B <= 1;
 				if(ex_in) execute <= 1;
-				disp_sel = 2'b01;
+				display_select = 2'b01;
 			end
 			op_A_neg: begin
 				if(dig_in) load_A <= 1;
 				if (sub_in || bksp_in) bksp_A <= 1'b1;
 				if(MR_in) load_A_mem <=1;
-				disp_sel = 2'b00;
+				display_select = 2'b00;
 			end
 			op_B_neg: begin
 				if(dig_in) load_B <= 1;
 				if(MR_in) load_B_mem <=1;
 				if (sub_in || bksp_in) bksp_B <= 1'b1;
-				disp_sel = 2'b01;
+				display_select = 2'b01;
 			end
-			operator: begin
+			oprnd: begin
 				if (sub_in || dig_in) load_B <= 1'b1;
-				disp_sel = 2'b01;
+				display_select = 2'b01;
 			end
 			result: begin
-				disp_sel = 2'b10;
+				display_select = 2'b10;
 			end
 			default : begin
-				disp_sel <= 2'b00;
+				display_select <= 2'b00;
 			end
 		endcase
 	end

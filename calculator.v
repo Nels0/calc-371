@@ -72,7 +72,7 @@ module calculator (input [3:0] ROW,
 		
 		//CONTROL UNIT
 		
-		wire [1:0] disp_sel;
+		wire [1:0] display_select;
 		wire load_op, reset_state, execute, load_A_mem, load_B_mem, load_mem, clear_mem;
 		
 		control FSM (
@@ -97,7 +97,7 @@ module calculator (input [3:0] ROW,
 			.load_op(load_op),
 			.reset_out(reset_state),
 			.execute(execute), //this is signal for ALU to execute the operation
-			.disp_sel(disp_sel)
+			.display_select(display_select)
 		);
 		
 		//OPERAND REGISTERS
@@ -170,7 +170,7 @@ module calculator (input [3:0] ROW,
 		
 		wire [31:0] memory_selected, memory_stored;
 		
-		memmux memory_select (.disp_sel(disp_sel),
+		memmux memory_select (.display_select(display_select),
 									.A(reg_A),
 									.B(reg_B),
 									.result(reg_memresult),
@@ -191,7 +191,7 @@ module calculator (input [3:0] ROW,
 		wire [3:0] hex0char_B, hex1char_B, hex2char_B, bcdneg_B;
 		wire [3:0] hex0_out, hex1_out, hex2_out, hex3_out, hex4_out, hex5_out, hex6_out, hex7_out;
 		
-		displaymux displayMUX (.disp_sel(disp_sel),
+		displaymux displayMUX (.display_select(display_select),
 								.reg_A(reg_A),
 								.reg_B(reg_B),
 								.reg_result(reg_result),
