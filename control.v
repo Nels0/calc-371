@@ -23,9 +23,10 @@ module control (input dig_in,
 				
 	parameter [2:0] start = 0, op_A = 1, op_A_neg = 2, oprnd = 3, op_B = 4, op_B_neg = 5, result = 6;
 	
+	//initial state start
 	reg[2:0]state = start;
 	
-	
+	//state changes
 	always @(posedge clock) begin
 		case(state)
 			start: begin
@@ -61,6 +62,7 @@ module control (input dig_in,
 		endcase
 	end
 	
+	//outputs
 	always @(*) begin
 		bksp_A <= 0;
 		bksp_B <= 0;
