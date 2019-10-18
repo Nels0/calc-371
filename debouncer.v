@@ -9,13 +9,14 @@ module debouncer #(parameter DBDIVISION = 10, parameter DBPERIOD = 10)(
 	wire debounceclock;
 										
 	reg [20:0] debouncetimer = 0;
-	parameter debouncecount = (1/50000*2^DBDIVISION*DBPERIOD);
+	parameter debouncecount = (1/50000*2^DBDIVISION*DBPERIOD); // Maths for conversion to MS
 
+	//Count type debouncer determines if signal has been valid for a given period in MS
 	always @ (posedge debounceclock) begin
-		if (signal) begin
+		if (signal) begin //count while signal true
 			debouncetimer = debouncetimer + 1'b1;
 		end
-		if (~signal) begin
+		if (~signal) begin //reset count if signal is ever false
 			debouncetimer = 0;
 		end
 	end

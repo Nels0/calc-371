@@ -6,8 +6,9 @@ module keypadscanner(
 			output reg keypressed
 			); 
 			
-			
-		//Doesn't handle 2 key presses well
+		//Scans over columns and freezes when an input is found	
+		//Doesn't handle 2 key presses, but this is out of scope
+
 
 		wire keyclock;
 		reg [1:0] n = 0;
@@ -33,9 +34,10 @@ module keypadscanner(
 				end
 			end
 			
+			//true if any key is seen pressed
 			keypressed = (~&row)? 1'b1:1'b0;
 			
-			//Decoder to set nth bit to 0
+			//Decoder to set nth bit to 0 (active low output)
 			col[3:0] = {4{1'b1}};
 			col[n] = 0;
 

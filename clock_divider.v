@@ -4,6 +4,7 @@ module clock_divider
 	output wire slow_clock
 );
 
+// Divides clock signal by 2^DIVISION
 	reg [22:0] clock_counter = 22'd0;
 
 	always @(posedge clock) begin

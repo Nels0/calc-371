@@ -5,6 +5,7 @@ module displaymux (input [1:0] display_select,
 					
 	reg [31:0] selected_reg;
 	
+	// Assigns mux output 
 	always @(*) begin
 		case (display_select)
 			2'b00 : selected_reg = reg_A;
@@ -13,7 +14,7 @@ module displaymux (input [1:0] display_select,
 			default : selected_reg = reg_A;
 		endcase
 	
-
+	// Splits BCD string into individual digits for each hex display.
 	 hex0_out = selected_reg[3:0];
 	 hex1_out = selected_reg[7:4];
 	 hex2_out = selected_reg[11:8];
