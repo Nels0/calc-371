@@ -3,8 +3,8 @@ module keypadtohex(
 							input [3:0] row,
 						output reg [3:0] hexcode);
 						
-//Module that takes {COL, ROW} arguments and returns hex value of key face for DE2 keypad
-
+//Module that takes COL, ROW arguments from a keypad and returns hex value of key face for DE2 keypad
+//combinatorial
 wire [7:0] keystroke = {col, row};
 
 always @(keystroke)
@@ -26,7 +26,7 @@ begin
 	8'b01111011 : hexcode <= 13; //D
 	8'b01111101 : hexcode <= 14; //E
 	8'b01111110 : hexcode <= 15; //F
-	default: hexcode <= 0; //default 0 (maybe should just be F)
+	default: hexcode <= 0; //default 0
 	endcase
 end
 

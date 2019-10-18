@@ -1,7 +1,7 @@
 module char_7seg( input [3:0] S,
 						output reg [0:6] Display);
 						
-
+//Lookup table to convert BCD nibble to character set
 	always @(S)
 	begin
 		case (S)

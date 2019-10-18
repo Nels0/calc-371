@@ -7,12 +7,16 @@ module bcdtobin (
 	
 	always @ (*) begin
 		
+		//Multiplies each digit by their decimal postion (10^n)
+		//and adds them
+		//Inverts sign if there's a negative char (should be only one)
+
 		temp = 11'd0; //initialise to zero
 		
 		if(BCD[3:0] < 4'b1010) begin //1's dig IsNumeric
 			temp = temp + BCD[3:0];		
 		end else if (BCD[3:0] == 4'b1110) begin //isNeg
-			temp = -temp;
+			temp = -temp; //invert number
 		end
 		
 		if(BCD[7:4] < 4'b1010) begin //IsNumeric
